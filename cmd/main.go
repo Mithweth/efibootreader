@@ -1,16 +1,16 @@
 package main
 
 import (
-	"os"
 	"fmt"
-	"strings"
 	"github.com/Mithweth/efibootreader/internal/efi"
+	"os"
+	"strings"
 )
 
 func main() {
 	if !efi.IsEFI() {
-    	fmt.Println("Machine started in BIOS mode")
-    	os.Exit(1)
+		fmt.Println("Machine started in BIOS mode")
+		os.Exit(1)
 	}
 	bootOrder, err := efi.GetBootOrder()
 	if err != nil {

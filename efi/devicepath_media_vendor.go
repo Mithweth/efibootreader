@@ -2,11 +2,10 @@ package efi
 
 import (
 	"fmt"
-	"github.com/google/uuid"
 )
 
 type VendorMediaNode struct {
-	GUID uuid.UUID
+	GUID GUID
 	Data []byte
 }
 
@@ -26,7 +25,7 @@ func parseVendorMediaNode(data []byte) (*VendorMediaNode, error) {
 		)
 	}
 
-	guid, err := ParseEFIGUID(data[0:16])
+	guid, err := ParseGUID(data[0:16])
 	if err != nil {
 		return nil, fmt.Errorf("parse vendor GUID: %w", err)
 	}

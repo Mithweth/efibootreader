@@ -3,7 +3,6 @@ package efi
 import (
 	"encoding/binary"
 	"fmt"
-	"github.com/google/uuid"
 )
 
 type PartitionType uint8
@@ -25,7 +24,7 @@ type HardDriveMediaNode struct {
 	PartitionNumber      uint32
 	PartitionSectorStart uint64
 	PartitionSectorSize  uint64
-	Signature            uuid.UUID
+	Signature            GUID
 	PartitionType        PartitionType
 	SignatureType        SignatureType
 }
@@ -49,11 +48,33 @@ func (h *HardDriveMediaNode) String() string {
 	)
 }
 
+func (h *HardDriveMediaNode) GoString() string {
+	if h == nil {
+		return "(*efi.HardDriveMediaNode)(nil)"
+	}
+
+	return fmt.Sprintf(
+		"&efi.HardDriveMediaNode{"+
+			"PartitionNumber:%#v, "+
+			"PartitionSectorStart:%#v, "+
+			"PartitionSectorSize:%#v, "+
+			"PartitionType:%#v, "+
+			"Signature:%#v, "+
+			"SignatureType:%#v}",
+		h.PartitionNumber,
+		h.PartitionSectorStart,
+		h.PartitionSectorSize,
+		h.PartitionType,
+		h.Signature,
+		h.SignatureType,
+	)
+}
+
 func parseHardDriveMediaNode(data []byte) (*HardDriveMediaNode, error) {
 	if len(data) != 38 {
 		return nil, fmt.Errorf("invalid hard drive node payload size: got %d, want 38", len(data))
 	}
-	sig, err := ParseEFIGUID(data[20:36])
+	sig, err := ParseGUID(data[20:36])
 	if err != nil {
 		return nil, err
 	}
@@ -66,4 +87,26 @@ func parseHardDriveMediaNode(data []byte) (*HardDriveMediaNode, error) {
 		PartitionType:        PartitionType(data[36]),
 		SignatureType:        SignatureType(data[37]),
 	}, nil
+}
+
+func (v PartitionType) String() string {
+	switch v {
+	case PartitionMBR:
+		return "MBR"
+	case PartitionGPT:
+		return "GPT"
+	default:
+		return fmt.Sprintf("UnknownPartitionType(%#x)", uint8(v))
+	}
+}
+
+func (v PartitionType) GoString() string {
+	switch v {
+	case PartitionMBR:
+		return "efi.PartitionMBR"
+	case PartitionGPT:
+		return "efi.PartitionGPT"
+	default:
+		return fmt.Sprintf("efi.Partition(%#x)", uint8(v))
+	}
 }

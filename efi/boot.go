@@ -30,6 +30,10 @@ func GetBootEntry(id uint16) (*BootEntry, error) {
 	return getBootEntry(fmt.Sprintf("Boot%04X", id))
 }
 
+func GetBootIds() ([]uint16, error) {
+	return backend.GetBootIds()
+}
+
 func getUint16(name string) (uint16, error) {
 	variable, err := backend.GetVariable(name)
 	if err != nil {

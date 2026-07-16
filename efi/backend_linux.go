@@ -9,6 +9,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 )
 
@@ -27,6 +28,29 @@ func (be *linuxBackend) IsEfi() bool {
 	return err == nil
 }
 
+func (be *linuxBackend) GetBootIds() ([]uint16, error) {
+	var ids []uint16
+	entries, err := os.ReadDir(be.path)
+	if err != nil {
+		return nil, err
+	}
+	for _, e := range entries {
+		if !strings.HasPrefix(e.Name(), "Boot") {
+			continue
+		}
+		splittedName := strings.SplitN(e.Name(), "-", 2)
+		if len(splittedName) != 2 {
+			return nil, fmt.Errorf("path is invalid: %s", e.Name())
+		}
+		id, err := strconv.ParseUint(splittedName[0][4:], 16, 16)
+		if err != nil {
+			continue
+		}
+		ids = append(ids, uint16(id))
+	}
+	return ids, nil
+}
+
 func (be *linuxBackend) getVariablePath(name string) (string, error) {
 	entries, err := os.ReadDir(be.path)
 	if err != nil {
@@ -40,7 +64,7 @@ func (be *linuxBackend) getVariablePath(name string) (string, error) {
 	return "", fs.ErrExist
 }
 
-func (be *linuxBackend) GetVariable(name string) (*Variable, error) {
+func (be *linuxBackend) GetVariable(name string) (*BootVariable, error) {
 	path, err := be.getVariablePath(name)
 	if err != nil {
 		return nil, err
@@ -63,5 +87,5 @@ func (be *linuxBackend) GetVariable(name string) (*Variable, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Variable{Name: entryName, GUID: guid, Attributes: attrs, Data: realData}, nil
+	return &BootVariable{Name: entryName, GUID: guid, Attributes: attrs, Data: realData}, nil
 }

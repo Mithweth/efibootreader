@@ -16,12 +16,15 @@ const (
 )
 
 const (
-	MediaHardDrive               MediaDevicePathSubType = 0x01
-	MediaCDROM                   MediaDevicePathSubType = 0x02
-	MediaVendor                  MediaDevicePathSubType = 0x03
-	MediaFilePath                MediaDevicePathSubType = 0x04
-	EndInstanceDevicePathSubType EndDevicePathSubType   = 0x01
-	EndEntireDevicePathSubType   EndDevicePathSubType   = 0xff
+	MediaHardDrive             MediaDevicePathSubType = 0x01
+	MediaCDROM                 MediaDevicePathSubType = 0x02
+	MediaVendor                MediaDevicePathSubType = 0x03
+	MediaFilePath              MediaDevicePathSubType = 0x04
+	MediaProtocol              MediaDevicePathSubType = 0x05
+	MediaFirewareFile          MediaDevicePathSubType = 0x06
+	MediaFirewareVolume        MediaDevicePathSubType = 0x07
+	EndThisInstanceSubType     EndDevicePathSubType   = 0x01
+	EndEntireDevicePathSubType EndDevicePathSubType   = 0xff
 )
 
 type DevicePathNode struct {
@@ -32,6 +35,10 @@ type DevicePathNode struct {
 }
 
 type DevicePath struct {
+	Instances []DevicePathInstance
+}
+
+type DevicePathInstance struct {
 	Nodes []DevicePathNode
 }
 
@@ -40,3 +47,4 @@ type UnknownDevicePathNode struct {
 	SubType uint8
 	Data    []byte
 }
+

@@ -14,6 +14,14 @@ func (f *FilePathMediaNode) String() string {
 	return fmt.Sprintf("File(%s)", f.Path)
 }
 
+func (f *FilePathMediaNode) GoString() string {
+	if f == nil {
+		return "(*efi.FilePathMediaNode)(nil)"
+	}
+
+	return fmt.Sprintf("&efi.FilePathMediaNode{Path:%#v}", f.Path)
+}
+
 func parseFilePathMediaNode(data []byte) (*FilePathMediaNode, error) {
 	if len(data)%2 != 0 {
 		return nil, fmt.Errorf("invalid UTF-16 file path size: %d", len(data))

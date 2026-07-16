@@ -5,11 +5,12 @@ import (
 )
 
 type variableBackend interface {
-	GetVariable(name string) (*Variable, error)
+	GetVariable(name string) (*BootVariable, error)
 	IsEfi() bool
+	GetBootIds() ([]uint16, error)
 }
 
-type Variable struct {
+type BootVariable struct {
 	Name       string
 	GUID       uuid.UUID
 	Attributes uint32

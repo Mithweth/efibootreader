@@ -5,6 +5,18 @@ import (
 	"github.com/google/uuid"
 )
 
+type GUID uuid.UUID
+
+var Nil GUID
+
+func (g GUID) String() string {
+	return uuid.UUID(g).String()
+}
+
+func (g GUID) GoString() string {
+    return fmt.Sprintf("efi.GUID(%q)", g.String())
+}
+
 // GUID definition :
 //
 //	typedef struct {
@@ -13,12 +25,13 @@ import (
 //	    UINT16 Data3; little-endian
 //	    UINT8  Data4[8]; big-endian
 //	} EFI_GUID;
-func ParseEFIGUID(data []byte) (uuid.UUID, error) {
+func ParseGUID(data []byte) (GUID, error) {
 	if len(data) != 16 {
-		return uuid.Nil, fmt.Errorf("expected 16 bytes, got %d", len(data))
+
+		return Nil, fmt.Errorf("expected 16 bytes, got %d", len(data))
 	}
 
-	return uuid.UUID{
+	return GUID{
 		data[3], data[2], data[1], data[0],
 		data[5], data[4],
 		data[7], data[6],

@@ -16,19 +16,58 @@ func (n DevicePathNode) String() string {
 }
 
 func (p *DevicePath) String() string {
+	var instances []string
+
+	for _, instance := range p.Instances {
+		instances = append(instances, instance.String())
+	}
+
+	return strings.Join(instances, ",")
+}
+
+// func (p *DevicePath) GoString() string {
+// 	var b strings.Builder
+
+// 	b.WriteString("efi.DevicePath{\n")
+// 	b.WriteString("\tInstances: []efi.DevicePathInstance{\n")
+
+// 	for _, instance := range p.Instances {
+// 		fmt.Fprintf(&b, "%#v,\n", instance)
+// 	}
+
+// 	b.WriteString("\t},\n")
+// 	b.WriteString("}")
+
+// 	return b.String()
+// }
+
+func (i DevicePathInstance) String() string {
 	var nodes []string
-	for _, node := range p.Nodes {
+	for _, node := range i.Nodes {
 		nodes = append(nodes, node.Details.String())
 	}
 	return strings.Join(nodes, "/")
+}
+
+func (i DevicePathInstance) GoString() string {
+	var nodes []string
+	for _, node := range i.Nodes {
+		nodes = append(nodes, fmt.Sprintf("%#v", node.Details))
+	}
+	return fmt.Sprintf("[]efi.DevicePathNode{%s}", strings.Join(nodes, ", "))
 }
 
 func isEndEntireDevicePath(node DevicePathNode) bool {
 	return node.Type == DevicePathEnd && EndDevicePathSubType(node.SubType) == EndEntireDevicePathSubType
 }
 
+func isEndThisInstance(node DevicePathNode) bool {
+	return node.Type == DevicePathEnd && EndDevicePathSubType(node.SubType) == EndThisInstanceSubType
+}
+
 func ParseDevicePath(data []byte) (*DevicePath, error) {
-	nodes := make([]DevicePathNode, 0)
+	var instances []DevicePathInstance
+	var nodes []DevicePathNode
 
 	for offset := 0; offset < len(data); {
 		if offset+4 > len(data) {
@@ -38,9 +77,7 @@ func ParseDevicePath(data []byte) (*DevicePath, error) {
 			)
 		}
 
-		nodeLength := int(binary.LittleEndian.Uint16(
-			data[offset+2 : offset+4],
-		))
+		nodeLength := int(binary.LittleEndian.Uint16(data[offset+2 : offset+4]))
 
 		if nodeLength < 4 {
 			return nil, fmt.Errorf(
@@ -68,7 +105,14 @@ func ParseDevicePath(data []byte) (*DevicePath, error) {
 
 		offset = nodeEnd
 
+		if isEndThisInstance(node) {
+			instances = append(instances, DevicePathInstance{Nodes: nodes})
+			nodes = []DevicePathNode{}
+			continue
+		}
+
 		if isEndEntireDevicePath(node) {
+			instances = append(instances, DevicePathInstance{Nodes: nodes})
 			break
 		}
 
@@ -81,7 +125,7 @@ func ParseDevicePath(data []byte) (*DevicePath, error) {
 		nodes = append(nodes, node)
 	}
 
-	return &DevicePath{Nodes: nodes}, nil
+	return &DevicePath{Instances: instances}, nil
 }
 
 func parseDevicePathNode(node DevicePathNode) (fmt.Stringer, error) {

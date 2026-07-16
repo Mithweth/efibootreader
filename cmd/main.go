@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/Mithweth/efibootreader/internal/efi"
+	"github.com/Mithweth/efibootreader/efi"
 	"os"
 	"strings"
 )

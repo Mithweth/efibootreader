@@ -1,8 +1,8 @@
 package efi
 
 import (
-	"fmt"
 	"encoding/binary"
+	"fmt"
 	"unicode/utf16"
 )
 
@@ -10,7 +10,7 @@ type BootEntry struct {
 	Attributes     uint32
 	Description    string
 	FilePathLength uint16
-	DevicePath     []DevicePathNode
+	DevicePath     DevicePath
 	OptionalData   []byte
 }
 
@@ -29,7 +29,6 @@ func GetBootCurrent() (uint16, error) {
 func GetBootEntry(id uint16) (*BootEntry, error) {
 	return getBootEntry(fmt.Sprintf("Boot%04X", id))
 }
-
 
 func getUint16(name string) (uint16, error) {
 	variable, err := backend.GetVariable(name)
@@ -58,7 +57,10 @@ func getBootEntry(name string) (*BootEntry, error) {
 	if err != nil {
 		return nil, err
 	}
-	data := variable.Data
+	return ParseBootEntry(variable.Data)
+}
+
+func ParseBootEntry(data []byte) (*BootEntry, error) {
 	runes := []uint16{}
 	attrs := binary.LittleEndian.Uint32(data[:4])
 	length := binary.LittleEndian.Uint16(data[4:6])
@@ -89,7 +91,7 @@ func getBootEntry(name string) (*BootEntry, error) {
 		Attributes:     attrs,
 		FilePathLength: length,
 		Description:    desc,
-		DevicePath:     devicePathNodes,
+		DevicePath:     *devicePathNodes,
 		OptionalData:   data[devicePathEnd:],
 	}, nil
 }

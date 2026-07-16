@@ -37,7 +37,6 @@ func main() {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		fmt.Printf("Boot%04X: %s (%+v)\n", bootId, bootEntry.Description, bootEntry.DevicePath)
-
+		fmt.Printf("Boot%04X: %s %s\n", bootId, bootEntry.Description, bootEntry.DevicePath.String())
 	}
 }

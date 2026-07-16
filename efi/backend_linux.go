@@ -3,13 +3,13 @@
 package efi
 
 import (
-	"os"
-	"fmt"
-	"io/fs"
 	"encoding/binary"
+	"fmt"
+	"github.com/google/uuid"
+	"io/fs"
+	"os"
 	"path/filepath"
 	"strings"
-	"github.com/google/uuid"
 )
 
 type linuxBackend struct {

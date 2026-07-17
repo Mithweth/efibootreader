@@ -3,6 +3,7 @@ package efi
 import (
 	"encoding/binary"
 	"fmt"
+	"io"
 )
 
 type CdromMediaNode struct {
@@ -12,12 +13,31 @@ type CdromMediaNode struct {
 }
 
 func (c *CdromMediaNode) String() string {
+	return fmt.Sprintf("CDROM(0x%x,0x%x,0x%x)", c.BootEntry, c.PartitionBlockStart, c.PartitionBlockSize)
+}
+
+func (c *CdromMediaNode) GoString() string {
+	if c == nil {
+		return "(*efi.CdromMediaNode)(nil)"
+	}
+
 	return fmt.Sprintf(
-		"CDROM(0x%x,0x%x,0x%x)",
+		"&efi.CdromMediaNode{"+
+			"BootEntry:%#v, "+
+			"PartitionBlockStart:%#v, "+
+			"PartitionBlockSize:%#v}",
 		c.BootEntry,
 		c.PartitionBlockStart,
 		c.PartitionBlockSize,
 	)
+}
+
+func (c *CdromMediaNode) dump(w io.Writer, indent string) {
+    fmt.Fprintf(w, "%sCD-Rom Media Node\n", indent)
+    fmt.Fprintf(w, "%s  Boot Entry\t\t : %d\n", indent, c.BootEntry)
+    fmt.Fprintf(w, "%s  Partition Start (Block)\t : %d\n", indent, c.PartitionBlockStart)
+    fmt.Fprintf(w, "%s  Partition Size (Block)\t : %d\n", indent, c.PartitionBlockSize)
+    fmt.Fprintf(w, "%s  Partition End (Block)\t : %d\n", indent, c.PartitionBlockStart + c.PartitionBlockSize)
 }
 
 func parseCdromMediaNode(data []byte) (*CdromMediaNode, error) {

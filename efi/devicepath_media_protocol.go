@@ -2,6 +2,7 @@ package efi
 
 import (
 	"fmt"
+	"io"
 )
 
 type ProtocolMediaNode struct {
@@ -11,6 +12,20 @@ type ProtocolMediaNode struct {
 func (p *ProtocolMediaNode) String() string {
 	return fmt.Sprintf("Media(%x)", p.GUID)
 }
+
+func (p *ProtocolMediaNode) GoString() string {
+	if p == nil {
+		return "(*efi.ProtocolMediaNode)(nil)"
+	}
+
+	return fmt.Sprintf("&efi.ProtocolMediaNode{GUID:%#v}", p.GUID)
+}
+
+func (p *ProtocolMediaNode) dump(w io.Writer, indent string) {
+    fmt.Fprintf(w, "%sProtocol Media Node\n", indent)
+    fmt.Fprintf(w, "%s  GUID\t\t : %s\n", indent, p.GUID)
+}
+
 
 func parseProtocolMediaNode(data []byte) (*ProtocolMediaNode, error) {
 	if len(data) != 16 {

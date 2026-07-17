@@ -2,6 +2,7 @@ package efi
 
 import (
 	"fmt"
+	"io"
 )
 
 type FirewareVolumeMediaNode struct {
@@ -10,6 +11,19 @@ type FirewareVolumeMediaNode struct {
 
 func (p *FirewareVolumeMediaNode) String() string {
 	return fmt.Sprintf("Fv(%x)", p.GUID)
+}
+
+func (p *FirewareVolumeMediaNode) GoString() string {
+	if p == nil {
+		return "(*efi.FirewareVolumeMediaNode)(nil)"
+	}
+
+	return fmt.Sprintf("&efi.FirewareVolumeMediaNode{GUID:%#v}", p.GUID)
+}
+
+func (p *FirewareVolumeMediaNode) dump(w io.Writer, indent string) {
+    fmt.Fprintf(w, "%sFireware Volume Media Node\n", indent)
+    fmt.Fprintf(w, "%s  GUID\t : %s\n", indent, p.GUID)
 }
 
 func parseFirewareVolumeMediaNode(data []byte) (*FirewareVolumeMediaNode, error) {

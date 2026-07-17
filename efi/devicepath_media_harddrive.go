@@ -3,6 +3,7 @@ package efi
 import (
 	"encoding/binary"
 	"fmt"
+	"io"
 )
 
 type PartitionType uint8
@@ -29,19 +30,60 @@ type HardDriveMediaNode struct {
 	SignatureType        SignatureType
 }
 
-func (h *HardDriveMediaNode) String() string {
-	var partitionType string
-	switch h.PartitionType {
+func (s SignatureType) String() string {
+    switch s {
+    case SignatureNone:
+    	return "None"
+    case SignatureMBR:
+        return "MBR"
+    case SignatureGPT:
+        return "GPT"
+    default:
+        return fmt.Sprintf("%#x", uint8(s))
+    }
+}
+
+func (s SignatureType) GoString() string {
+    switch s {
+    case SignatureNone:
+    	return "efi.SignatureNone"
+    case SignatureMBR:
+        return "efi.SignatureMBR"
+    case SignatureGPT:
+        return "efi.SignatureGPT"
+    default:
+        return fmt.Sprintf("efi.Signature(%#x)", uint8(s))
+    }
+}
+
+
+func (v PartitionType) String() string {
+	switch v {
 	case PartitionMBR:
-		partitionType = "MBR"
+		return "MBR"
 	case PartitionGPT:
-		partitionType = "GPT"
+		return "GPT"
 	default:
+		return fmt.Sprintf("%#x", uint8(v))
 	}
+}
+
+func (v PartitionType) GoString() string {
+	switch v {
+	case PartitionMBR:
+		return "efi.PartitionMBR"
+	case PartitionGPT:
+		return "efi.PartitionGPT"
+	default:
+		return fmt.Sprintf("efi.Partition(%#x)", uint8(v))
+	}
+}
+
+func (h *HardDriveMediaNode) String() string {
 	return fmt.Sprintf(
 		"HD(%d,%s,%s,%x,%x)",
 		h.PartitionNumber,
-		partitionType,
+		h.PartitionType,
 		h.Signature,
 		h.PartitionSectorStart,
 		h.PartitionSectorSize,
@@ -70,6 +112,17 @@ func (h *HardDriveMediaNode) GoString() string {
 	)
 }
 
+func (h *HardDriveMediaNode) dump(w io.Writer, indent string) {
+    fmt.Fprintf(w, "%sHard Drive Media Node\n", indent)
+    fmt.Fprintf(w, "%s  Partition Number\t\t : %d\n", indent, h.PartitionNumber)
+    fmt.Fprintf(w, "%s  Partition Start (Sectors)\t : %d\n", indent, h.PartitionSectorStart)
+    fmt.Fprintf(w, "%s  Partition Size (Sectors)\t : %d\n", indent, h.PartitionSectorSize)
+    fmt.Fprintf(w, "%s  Partition End (Sectors)\t : %d\n", indent, h.PartitionSectorStart + h.PartitionSectorSize)
+    fmt.Fprintf(w, "%s  Partition Type\t\t : %s\n", indent, h.PartitionType)
+    fmt.Fprintf(w, "%s  Signature\t\t\t : %s\n", indent, h.Signature)
+    fmt.Fprintf(w, "%s  Signature Type\t\t : %s\n", indent, h.SignatureType)
+}
+
 func parseHardDriveMediaNode(data []byte) (*HardDriveMediaNode, error) {
 	if len(data) != 38 {
 		return nil, fmt.Errorf("invalid hard drive node payload size: got %d, want 38", len(data))
@@ -87,26 +140,4 @@ func parseHardDriveMediaNode(data []byte) (*HardDriveMediaNode, error) {
 		PartitionType:        PartitionType(data[36]),
 		SignatureType:        SignatureType(data[37]),
 	}, nil
-}
-
-func (v PartitionType) String() string {
-	switch v {
-	case PartitionMBR:
-		return "MBR"
-	case PartitionGPT:
-		return "GPT"
-	default:
-		return fmt.Sprintf("UnknownPartitionType(%#x)", uint8(v))
-	}
-}
-
-func (v PartitionType) GoString() string {
-	switch v {
-	case PartitionMBR:
-		return "efi.PartitionMBR"
-	case PartitionGPT:
-		return "efi.PartitionGPT"
-	default:
-		return fmt.Sprintf("efi.Partition(%#x)", uint8(v))
-	}
 }

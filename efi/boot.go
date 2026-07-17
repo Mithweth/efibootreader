@@ -3,6 +3,7 @@ package efi
 import (
 	"encoding/binary"
 	"fmt"
+	"strings"
 	"unicode/utf16"
 )
 
@@ -12,6 +13,15 @@ type BootEntry struct {
 	FilePathLength uint16
 	DevicePath     DevicePath
 	OptionalData   []byte
+}
+
+func (b *BootEntry) Dump() string {
+    var s strings.Builder
+    fmt.Fprintf(&s, "ID\t\t : %04X\n", b.Attributes)
+    fmt.Fprintf(&s, "Description\t : %s\n", b.Description)
+    fmt.Fprintf(&s, "Length\t\t : %d\n", b.FilePathLength)
+    b.DevicePath.dump(&s, "")
+    return s.String()
 }
 
 func IsEFI() bool {

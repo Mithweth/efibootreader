@@ -3,6 +3,7 @@ package efi
 import (
 	"encoding/binary"
 	"fmt"
+	"io"
 	"unicode/utf16"
 )
 
@@ -20,6 +21,11 @@ func (f *FilePathMediaNode) GoString() string {
 	}
 
 	return fmt.Sprintf("&efi.FilePathMediaNode{Path:%#v}", f.Path)
+}
+
+func (f *FilePathMediaNode) dump(w io.Writer, indent string) {
+    fmt.Fprintf(w, "%sFile Path Media Node\n", indent)
+    fmt.Fprintf(w, "%s  Path\t\t\t : %s\n", indent, f.Path)
 }
 
 func parseFilePathMediaNode(data []byte) (*FilePathMediaNode, error) {

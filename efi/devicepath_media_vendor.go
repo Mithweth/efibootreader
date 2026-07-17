@@ -2,6 +2,7 @@ package efi
 
 import (
 	"fmt"
+	"io"
 )
 
 type VendorMediaNode struct {
@@ -15,6 +16,26 @@ func (v *VendorMediaNode) String() string {
 	}
 
 	return fmt.Sprintf("VenMedia(%s,%x)", v.GUID, v.Data)
+}
+
+func (v *VendorMediaNode) GoString() string {
+	if v == nil {
+		return "(*efi.VendorMediaNode)(nil)"
+	}
+
+	return fmt.Sprintf(
+		"&efi.VendorMediaNode{"+
+			"GUID:%#v, "+
+			"Data:%#v}",
+		v.GUID,
+		v.Data,
+	)
+}
+
+func (v *VendorMediaNode) dump(w io.Writer, indent string) {
+    fmt.Fprintf(w, "%sVendor Media Node\n", indent)
+    fmt.Fprintf(w, "%s  GUID\t\t : %s\n", indent, v.GUID)
+    fmt.Fprintf(w, "%s  Data\t\t : %s\n", indent, v.Data)
 }
 
 func parseVendorMediaNode(data []byte) (*VendorMediaNode, error) {

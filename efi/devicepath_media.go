@@ -1,13 +1,11 @@
 package efi
 
-import "fmt"
-
-func parseMediaDevicePathNode(node DevicePathNode) (fmt.Stringer, error) {
+func parseMediaDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, error) {
 	switch MediaDevicePathSubType(node.SubType) {
 	case MediaHardDrive:
 		return parseHardDriveMediaNode(node.Data)
 
-	case MediaCDROM:
+	case MediaCdrom:
 		return parseCdromMediaNode(node.Data)
 
 	case MediaVendor:

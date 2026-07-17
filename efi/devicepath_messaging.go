@@ -1,0 +1,39 @@
+package efi
+
+func parseMessagingDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, error) {
+	switch MessagingDevicePathSubType(node.SubType) {
+	case MessagingAtapi:
+		return parseAtapiMessagingNode(node.Data)
+
+	case MessagingScsi:
+		return parseScsiMessagingNode(node.Data)
+
+	case MessagingFibreChannel:
+		return parseFibreChannelMessagingNode(node.Data)
+
+	case MessagingIeee1394:
+		return parseIeee1394MessagingNode(node.Data)
+
+	case MessagingUsb:
+		return parseUsbMessagingNode(node.Data)
+
+	case MessagingI2O:
+		return parseI2OMessagingNode(node.Data)
+
+	case MessagingMacAddress:
+		return parseMacAddressMessagingNode(node.Data)
+
+	case MessagingUsbWwid:
+		return parseUsbWwidMessagingNode(node.Data)
+
+	case MessagingLogicalUnit:
+		return parseLogicalUnitMessagingNode(node.Data)
+
+	case MessagingSata:
+		return parseSataMessagingNode(node.Data)
+
+
+	default:
+		return unknownDevicePathNode(node), nil
+	}
+}

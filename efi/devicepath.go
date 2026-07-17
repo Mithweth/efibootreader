@@ -3,17 +3,9 @@ package efi
 import (
 	"encoding/binary"
 	"fmt"
+	"io"
 	"strings"
 )
-
-func (n DevicePathNode) String() string {
-	return fmt.Sprintf(
-		"Unknown(%d,%d,%x)",
-		n.Type,
-		n.SubType,
-		n.Data,
-	)
-}
 
 func (p *DevicePath) String() string {
 	var instances []string
@@ -25,21 +17,19 @@ func (p *DevicePath) String() string {
 	return strings.Join(instances, ",")
 }
 
-// func (p *DevicePath) GoString() string {
-// 	var b strings.Builder
+func (d *DevicePath) Dump() string {
+    var b strings.Builder
+    d.dump(&b, "")
+    return b.String()
+}
 
-// 	b.WriteString("efi.DevicePath{\n")
-// 	b.WriteString("\tInstances: []efi.DevicePathInstance{\n")
+func (d *DevicePath) dump(w io.Writer, indent string) {
+    fmt.Fprintf(w, "%sDevicePath\n", indent)
 
-// 	for _, instance := range p.Instances {
-// 		fmt.Fprintf(&b, "%#v,\n", instance)
-// 	}
-
-// 	b.WriteString("\t},\n")
-// 	b.WriteString("}")
-
-// 	return b.String()
-// }
+    for _, inst := range d.Instances {
+        inst.dump(w, indent + "  ")
+    }
+}
 
 func (i DevicePathInstance) String() string {
 	var nodes []string
@@ -55,6 +45,18 @@ func (i DevicePathInstance) GoString() string {
 		nodes = append(nodes, fmt.Sprintf("%#v", node.Details))
 	}
 	return fmt.Sprintf("[]efi.DevicePathNode{%s}", strings.Join(nodes, ", "))
+}
+
+func (i DevicePathInstance) dump(w io.Writer, indent string) {
+    fmt.Fprintf(w, "%sDevicePathInstance\n", indent)
+
+    for _, node := range i.Nodes {
+        node.Details.dump(w, indent + "  ")
+    }
+}
+
+func (n DevicePathNode) String() string {
+	return fmt.Sprintf("Unknown(%d,%d,%x)", n.Type, n.SubType, n.Data)
 }
 
 func isEndEntireDevicePath(node DevicePathNode) bool {
@@ -128,7 +130,7 @@ func ParseDevicePath(data []byte) (*DevicePath, error) {
 	return &DevicePath{Instances: instances}, nil
 }
 
-func parseDevicePathNode(node DevicePathNode) (fmt.Stringer, error) {
+func parseDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, error) {
 	switch node.Type {
 	case DevicePathMedia:
 		return parseMediaDevicePathNode(node)
@@ -139,8 +141,8 @@ func parseDevicePathNode(node DevicePathNode) (fmt.Stringer, error) {
 	// case DevicePathACPI:
 	// 	return parseACPIDevicePathNode(node)
 
-	// case DevicePathMessaging:
-	// 	return parseMessagingDevicePathNode(node)
+	case DevicePathMessaging:
+	 	return parseMessagingDevicePathNode(node)
 
 	// case DevicePathBBS:
 	// 	return parseBBSDevicePathNode(node)

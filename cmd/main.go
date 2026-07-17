@@ -50,6 +50,7 @@ func main() {
 			bootName += "*"
 		}
 		fmt.Printf("%s %s %s\n", bootName, bootEntry.Description, bootEntry.DevicePath)
+		fmt.Println(bootEntry.Dump())
 		//fmt.Printf("%#v\n", bootEntry.DevicePath)
 	}
 }

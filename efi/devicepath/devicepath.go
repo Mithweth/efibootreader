@@ -18,11 +18,11 @@ func (p *DevicePath) String() string {
 }
 
 func (d *DevicePath) Dump(w io.Writer, indent string) {
-    fmt.Fprintf(w, "%sDevicePath\n", indent)
+	_, _ = fmt.Fprintf(w, "%sDevicePath\n", indent)
 
-    for _, inst := range d.Instances {
-        inst.dump(w, indent + "  ")
-    }
+	for _, inst := range d.Instances {
+		inst.dump(w, indent+"  ")
+	}
 }
 
 func (i DevicePathInstance) String() string {
@@ -42,11 +42,11 @@ func (i DevicePathInstance) GoString() string {
 }
 
 func (i DevicePathInstance) dump(w io.Writer, indent string) {
-    fmt.Fprintf(w, "%sDevicePathInstance\n", indent)
+	_, _ = fmt.Fprintf(w, "%sDevicePathInstance\n", indent)
 
-    for _, node := range i.Nodes {
-        node.Details.dump(w, indent + "  ")
-    }
+	for _, node := range i.Nodes {
+		node.Details.dump(w, indent+"  ")
+	}
 }
 
 func (n DevicePathNode) String() string {
@@ -136,7 +136,7 @@ func parseDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, error) {
 	// 	return parseACPIDevicePathNode(node)
 
 	case DevicePathMessaging:
-	 	return parseMessagingDevicePathNode(node)
+		return parseMessagingDevicePathNode(node)
 
 	// case DevicePathBBS:
 	// 	return parseBBSDevicePathNode(node)

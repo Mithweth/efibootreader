@@ -38,10 +38,10 @@ func (h *SataMessagingNode) GoString() string {
 }
 
 func (h *SataMessagingNode) dump(w io.Writer, indent string) {
-	fmt.Fprintf(w, "%sSATA Messaging Node\n", indent)
-	fmt.Fprintf(w, "%s  HBA Port Number\t\t : %d\n", indent, h.HBAPortNumber)
-	fmt.Fprintf(w, "%s  Port Multiplier Port Number\t : %d\n", indent, h.PortMultiplierPortNumber)
-	fmt.Fprintf(w, "%s  Logical Unit Number\t\t : %d\n", indent, h.LogicalUnitNumber)
+	_, _ = fmt.Fprintf(w, "%sSATA Messaging Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  HBA Port Number\t\t : %d\n", indent, h.HBAPortNumber)
+	_, _ = fmt.Fprintf(w, "%s  Port Multiplier Port Number\t : %d\n", indent, h.PortMultiplierPortNumber)
+	_, _ = fmt.Fprintf(w, "%s  Logical Unit Number\t\t : %d\n", indent, h.LogicalUnitNumber)
 }
 
 func parseSataMessagingNode(data []byte) (*SataMessagingNode, error) {

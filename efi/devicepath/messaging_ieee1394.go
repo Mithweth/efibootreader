@@ -30,9 +30,9 @@ func (h *Ieee1394MessagingNode) GoString() string {
 }
 
 func (h *Ieee1394MessagingNode) dump(w io.Writer, indent string) {
-	fmt.Fprintf(w, "%sIEEE 1394 Messaging Node\n", indent)
-	fmt.Fprintf(w, "%s  Reserved\t : %d\n", indent, h.Reserved)
-	fmt.Fprintf(w, "%s  GUID\t\t : %d\n", indent, h.GUID)
+	_, _ = fmt.Fprintf(w, "%sIEEE 1394 Messaging Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  Reserved\t : %d\n", indent, h.Reserved)
+	_, _ = fmt.Fprintf(w, "%s  GUID\t\t : %d\n", indent, h.GUID)
 }
 
 func parseIeee1394MessagingNode(data []byte) (*Ieee1394MessagingNode, error) {

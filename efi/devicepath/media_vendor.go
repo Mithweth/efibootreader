@@ -2,8 +2,8 @@ package devicepath
 
 import (
 	"fmt"
-	"io"
 	"github.com/Mithweth/efibootreader/identifiers"
+	"io"
 )
 
 type VendorMediaNode struct {
@@ -34,9 +34,9 @@ func (v *VendorMediaNode) GoString() string {
 }
 
 func (v *VendorMediaNode) dump(w io.Writer, indent string) {
-    fmt.Fprintf(w, "%sVendor Media Node\n", indent)
-    fmt.Fprintf(w, "%s  GUID\t\t : %s\n", indent, v.GUID)
-    fmt.Fprintf(w, "%s  Data\t\t : %s\n", indent, v.Data)
+	_, _ = fmt.Fprintf(w, "%sVendor Media Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  GUID\t\t : %s\n", indent, v.GUID)
+	_, _ = fmt.Fprintf(w, "%s  Data\t\t : %s\n", indent, v.Data)
 }
 
 func parseVendorMediaNode(data []byte) (*VendorMediaNode, error) {

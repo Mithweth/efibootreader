@@ -29,9 +29,9 @@ func (h *UsbMessagingNode) GoString() string {
 }
 
 func (h *UsbMessagingNode) dump(w io.Writer, indent string) {
-	fmt.Fprintf(w, "%sUSB Messaging Node\n", indent)
-	fmt.Fprintf(w, "%s  Parent Port Number\t : %d\n", indent, h.ParentPortNumber)
-	fmt.Fprintf(w, "%s  Interface Number\t : %d\n", indent, h.InterfaceNumber)
+	_, _ = fmt.Fprintf(w, "%sUSB Messaging Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  Parent Port Number\t : %d\n", indent, h.ParentPortNumber)
+	_, _ = fmt.Fprintf(w, "%s  Interface Number\t : %d\n", indent, h.InterfaceNumber)
 }
 
 func parseUsbMessagingNode(data []byte) (*UsbMessagingNode, error) {

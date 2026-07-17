@@ -13,7 +13,7 @@ type FibreChannelMessagingNode struct {
 }
 
 func (h *FibreChannelMessagingNode) String() string {
-	return fmt.Sprintf("Fibre(%d,%d)",h.WorldWideName,h.LogicalUnitNumber)
+	return fmt.Sprintf("Fibre(%d,%d)", h.WorldWideName, h.LogicalUnitNumber)
 }
 
 func (h *FibreChannelMessagingNode) GoString() string {
@@ -33,10 +33,10 @@ func (h *FibreChannelMessagingNode) GoString() string {
 }
 
 func (h *FibreChannelMessagingNode) dump(w io.Writer, indent string) {
-	fmt.Fprintf(w, "%sFibre Channel Messaging Node\n", indent)
-	fmt.Fprintf(w, "%s  Reserved\t\t : %d\n", indent, h.Reserved)
-	fmt.Fprintf(w, "%s  World Wide Name\t : %d\n", indent, h.WorldWideName)
-	fmt.Fprintf(w, "%s  Logical Unit Number\t : %d\n", indent, h.LogicalUnitNumber)
+	_, _ = fmt.Fprintf(w, "%sFibre Channel Messaging Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  Reserved\t\t : %d\n", indent, h.Reserved)
+	_, _ = fmt.Fprintf(w, "%s  World Wide Name\t : %d\n", indent, h.WorldWideName)
+	_, _ = fmt.Fprintf(w, "%s  Logical Unit Number\t : %d\n", indent, h.LogicalUnitNumber)
 }
 
 func parseFibreChannelMessagingNode(data []byte) (*FibreChannelMessagingNode, error) {

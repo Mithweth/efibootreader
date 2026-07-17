@@ -25,7 +25,7 @@ func (e EUI64) String() string {
 }
 
 func (e EUI64) GoString() string {
-    return fmt.Sprintf("efi.EUI64(0x%016x)", uint64(e))
+	return fmt.Sprintf("efi.EUI64(0x%016x)", uint64(e))
 }
 
 func ParseEUI64(data []byte) (EUI64, error) {

@@ -38,7 +38,6 @@ func ParseIPv4AddressType(data byte) IPv4AddressType {
 	return IPv4AddressType(data)
 }
 
-
 type IPv4Address [4]byte
 
 func (a IPv4Address) String() string {

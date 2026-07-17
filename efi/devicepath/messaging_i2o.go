@@ -27,8 +27,8 @@ func (h *I2OMessagingNode) GoString() string {
 }
 
 func (h *I2OMessagingNode) dump(w io.Writer, indent string) {
-	fmt.Fprintf(w, "%sI2O Messaging Node\n", indent)
-	fmt.Fprintf(w, "%s  Target ID\t : %d\n", indent, h.TargetID)
+	_, _ = fmt.Fprintf(w, "%sI2O Messaging Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  Target ID\t : %d\n", indent, h.TargetID)
 }
 
 func parseI2OMessagingNode(data []byte) (*I2OMessagingNode, error) {

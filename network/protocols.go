@@ -1,8 +1,8 @@
 package network
 
 import (
-	"fmt"
 	"encoding/binary"
+	"fmt"
 )
 
 type NetworkProtocol uint16

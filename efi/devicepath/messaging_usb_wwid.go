@@ -37,11 +37,11 @@ func (h *UsbWwidMessagingNode) GoString() string {
 }
 
 func (h *UsbWwidMessagingNode) dump(w io.Writer, indent string) {
-	fmt.Fprintf(w, "%sUSB WWID Messaging Node\n", indent)
-	fmt.Fprintf(w, "%s  Interface Number\t : %d\n", indent, h.InterfaceNumber)
-	fmt.Fprintf(w, "%s  Vendor ID\t\t : %d\n", indent, h.VendorID)
-	fmt.Fprintf(w, "%s  Product ID\t\t : %d\n", indent, h.ProductID)
-	fmt.Fprintf(w, "%s  Serial Number\t : %s\n", indent, h.SerialNumber)
+	_, _ = fmt.Fprintf(w, "%sUSB WWID Messaging Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  Interface Number\t : %d\n", indent, h.InterfaceNumber)
+	_, _ = fmt.Fprintf(w, "%s  Vendor ID\t\t : %d\n", indent, h.VendorID)
+	_, _ = fmt.Fprintf(w, "%s  Product ID\t\t : %d\n", indent, h.ProductID)
+	_, _ = fmt.Fprintf(w, "%s  Serial Number\t : %s\n", indent, h.SerialNumber)
 }
 
 func parseUsbWwidMessagingNode(data []byte) (*UsbWwidMessagingNode, error) {

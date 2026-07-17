@@ -3,8 +3,8 @@ package devicepath
 import (
 	"encoding/binary"
 	"fmt"
-	"io"
 	"github.com/Mithweth/efibootreader/identifiers"
+	"io"
 )
 
 type NvmeNamespaceMessagingNode struct {
@@ -35,9 +35,9 @@ func (h *NvmeNamespaceMessagingNode) GoString() string {
 }
 
 func (h *NvmeNamespaceMessagingNode) dump(w io.Writer, indent string) {
-	fmt.Fprintf(w, "%sNVMe Namespace Messaging Node\n", indent)
-	fmt.Fprintf(w, "%s  Namespace ID\t : %d (0x%02x)\n", indent, h.NamespaceID, h.NamespaceID)
-	fmt.Fprintf(w, "%s  EUI-64\t\t : %s\n", indent, h.EUI64)
+	_, _ = fmt.Fprintf(w, "%sNVMe Namespace Messaging Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  Namespace ID\t : %d (0x%02x)\n", indent, h.NamespaceID, h.NamespaceID)
+	_, _ = fmt.Fprintf(w, "%s  EUI-64\t\t : %s\n", indent, h.EUI64)
 }
 
 func parseNvmeNamespaceMessagingNode(data []byte) (*NvmeNamespaceMessagingNode, error) {

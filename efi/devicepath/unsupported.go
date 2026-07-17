@@ -20,10 +20,10 @@ func (n UnknownDevicePathNode) GoString() string {
 }
 
 func (n UnknownDevicePathNode) dump(w io.Writer, indent string) {
-	fmt.Fprintf(w, "%sUnknown Device Path\n", indent)
-	fmt.Fprintf(w, "%s  Type\t : %d (0x%02x)\n", indent, n.Type, n.Type)
-	fmt.Fprintf(w, "%s  SubType\t : %d (0x%02x)\n", indent, n.SubType, n.SubType)
-	fmt.Fprintf(w, "%s  Data\t : %x\n", indent, n.Data)
+	_, _ = fmt.Fprintf(w, "%sUnknown Device Path\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  Type\t : %d (0x%02x)\n", indent, n.Type, n.Type)
+	_, _ = fmt.Fprintf(w, "%s  SubType\t : %d (0x%02x)\n", indent, n.SubType, n.SubType)
+	_, _ = fmt.Fprintf(w, "%s  Data\t : %x\n", indent, n.Data)
 }
 
 func unknownDevicePathNode(node DevicePathNode) DevicePathNodeDetails {

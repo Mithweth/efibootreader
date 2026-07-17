@@ -26,8 +26,8 @@ func (h *LogicalUnitMessagingNode) GoString() string {
 }
 
 func (h *LogicalUnitMessagingNode) dump(w io.Writer, indent string) {
-	fmt.Fprintf(w, "%sLogical Unit Messaging Node\n", indent)
-	fmt.Fprintf(w, "%s  Logical Unit Number\t : %d\n", indent, h.LogicalUnitNumber)
+	_, _ = fmt.Fprintf(w, "%sLogical Unit Messaging Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  Logical Unit Number\t : %d\n", indent, h.LogicalUnitNumber)
 }
 
 func parseLogicalUnitMessagingNode(data []byte) (*LogicalUnitMessagingNode, error) {

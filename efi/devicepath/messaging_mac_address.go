@@ -16,7 +16,7 @@ func (h *MacAddressMessagingNode) String() string {
 		addressLength = 6
 	}
 
-	return fmt.Sprintf("MAC(%x,%d)",h.Address[:addressLength],h.InterfaceType)
+	return fmt.Sprintf("MAC(%x,%d)", h.Address[:addressLength], h.InterfaceType)
 }
 
 func (h *MacAddressMessagingNode) GoString() string {
@@ -39,9 +39,9 @@ func (h *MacAddressMessagingNode) dump(w io.Writer, indent string) {
 		addressLength = 6
 	}
 
-	fmt.Fprintf(w, "%sMAC Address Messaging Node\n", indent)
-	fmt.Fprintf(w, "%s  MAC Address\t\t : %x\n", indent, h.Address[:addressLength])
-	fmt.Fprintf(w, "%s  Interface Type\t : %d\n", indent, h.InterfaceType)
+	_, _ = fmt.Fprintf(w, "%sMAC Address Messaging Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  MAC Address\t\t : %x\n", indent, h.Address[:addressLength])
+	_, _ = fmt.Fprintf(w, "%s  Interface Type\t : %d\n", indent, h.InterfaceType)
 }
 
 func parseMacAddressMessagingNode(data []byte) (*MacAddressMessagingNode, error) {

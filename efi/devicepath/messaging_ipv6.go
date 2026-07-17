@@ -3,14 +3,14 @@ package devicepath
 import (
 	"encoding/binary"
 	"fmt"
-	"io"
 	"github.com/Mithweth/efibootreader/network"
+	"io"
 )
 
 type IPv6AddressOrigin uint8
 
 const (
-	IPv6AddressManual                IPv6AddressOrigin = 0
+	IPv6AddressManual                 IPv6AddressOrigin = 0
 	IPv6AddressStatelessAutoConfigure IPv6AddressOrigin = 1
 	IPv6AddressStatefulAutoConfigure  IPv6AddressOrigin = 2
 )
@@ -91,15 +91,15 @@ func (h *IPv6MessagingNode) GoString() string {
 }
 
 func (h *IPv6MessagingNode) dump(w io.Writer, indent string) {
-	fmt.Fprintf(w, "%sIPv6 Messaging Node\n", indent)
-	fmt.Fprintf(w, "%s  Local IP Address\t : %s\n", indent, h.LocalIPAddress)
-	fmt.Fprintf(w, "%s  Remote IP Address\t : %s\n", indent, h.RemoteIPAddress)
-	fmt.Fprintf(w, "%s  Local Port\t\t : %d\n", indent, h.LocalPort)
-	fmt.Fprintf(w, "%s  Remote Port\t\t : %d\n", indent, h.RemotePort)
-	fmt.Fprintf(w, "%s  Protocol\t\t : %s\n", indent, h.Protocol)
-	fmt.Fprintf(w, "%s  Address Origin\t : %s\n", indent, h.AddressOrigin)
-	fmt.Fprintf(w, "%s  Prefix Length\t : %d\n", indent, h.PrefixLength)
-	fmt.Fprintf(w, "%s  Gateway IP Address\t : %s\n", indent, h.GatewayIPAddress)
+	_, _ = fmt.Fprintf(w, "%sIPv6 Messaging Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  Local IP Address\t : %s\n", indent, h.LocalIPAddress)
+	_, _ = fmt.Fprintf(w, "%s  Remote IP Address\t : %s\n", indent, h.RemoteIPAddress)
+	_, _ = fmt.Fprintf(w, "%s  Local Port\t\t : %d\n", indent, h.LocalPort)
+	_, _ = fmt.Fprintf(w, "%s  Remote Port\t\t : %d\n", indent, h.RemotePort)
+	_, _ = fmt.Fprintf(w, "%s  Protocol\t\t : %s\n", indent, h.Protocol)
+	_, _ = fmt.Fprintf(w, "%s  Address Origin\t : %s\n", indent, h.AddressOrigin)
+	_, _ = fmt.Fprintf(w, "%s  Prefix Length\t : %d\n", indent, h.PrefixLength)
+	_, _ = fmt.Fprintf(w, "%s  Gateway IP Address\t : %s\n", indent, h.GatewayIPAddress)
 }
 
 func parseIPv6MessagingNode(data []byte) (*IPv6MessagingNode, error) {

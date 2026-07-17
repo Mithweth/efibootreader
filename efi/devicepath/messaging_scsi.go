@@ -30,9 +30,9 @@ func (h *ScsiMessagingNode) GoString() string {
 }
 
 func (h *ScsiMessagingNode) dump(w io.Writer, indent string) {
-	fmt.Fprintf(w, "%sSCSI Messaging Node\n", indent)
-	fmt.Fprintf(w, "%s  Target ID\t\t : %d\n", indent, h.TargetID)
-	fmt.Fprintf(w,"%s  Logical Unit Number\t : %d\n", indent, h.LogicalUnitNumber)
+	_, _ = fmt.Fprintf(w, "%sSCSI Messaging Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  Target ID\t\t : %d\n", indent, h.TargetID)
+	_, _ = fmt.Fprintf(w, "%s  Logical Unit Number\t : %d\n", indent, h.LogicalUnitNumber)
 }
 
 func parseScsiMessagingNode(data []byte) (*ScsiMessagingNode, error) {

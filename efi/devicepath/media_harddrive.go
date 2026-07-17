@@ -3,8 +3,8 @@ package devicepath
 import (
 	"encoding/binary"
 	"fmt"
-	"io"
 	"github.com/Mithweth/efibootreader/identifiers"
+	"io"
 )
 
 type PartitionType uint8
@@ -32,31 +32,30 @@ type HardDriveMediaNode struct {
 }
 
 func (s SignatureType) String() string {
-    switch s {
-    case SignatureNone:
-    	return "None"
-    case SignatureMBR:
-        return "MBR"
-    case SignatureGPT:
-        return "GPT"
-    default:
-        return fmt.Sprintf("%#x", uint8(s))
-    }
+	switch s {
+	case SignatureNone:
+		return "None"
+	case SignatureMBR:
+		return "MBR"
+	case SignatureGPT:
+		return "GPT"
+	default:
+		return fmt.Sprintf("%#x", uint8(s))
+	}
 }
 
 func (s SignatureType) GoString() string {
-    switch s {
-    case SignatureNone:
-    	return "efi.SignatureNone"
-    case SignatureMBR:
-        return "efi.SignatureMBR"
-    case SignatureGPT:
-        return "efi.SignatureGPT"
-    default:
-        return fmt.Sprintf("efi.Signature(%#x)", uint8(s))
-    }
+	switch s {
+	case SignatureNone:
+		return "efi.SignatureNone"
+	case SignatureMBR:
+		return "efi.SignatureMBR"
+	case SignatureGPT:
+		return "efi.SignatureGPT"
+	default:
+		return fmt.Sprintf("efi.Signature(%#x)", uint8(s))
+	}
 }
-
 
 func (v PartitionType) String() string {
 	switch v {
@@ -114,14 +113,14 @@ func (h *HardDriveMediaNode) GoString() string {
 }
 
 func (h *HardDriveMediaNode) dump(w io.Writer, indent string) {
-    fmt.Fprintf(w, "%sHard Drive Media Node\n", indent)
-    fmt.Fprintf(w, "%s  Partition Number\t\t : %d\n", indent, h.PartitionNumber)
-    fmt.Fprintf(w, "%s  Partition Start (Sectors)\t : %d\n", indent, h.PartitionSectorStart)
-    fmt.Fprintf(w, "%s  Partition Size (Sectors)\t : %d\n", indent, h.PartitionSectorSize)
-    fmt.Fprintf(w, "%s  Partition End (Sectors)\t : %d\n", indent, h.PartitionSectorStart + h.PartitionSectorSize)
-    fmt.Fprintf(w, "%s  Partition Type\t\t : %s\n", indent, h.PartitionType)
-    fmt.Fprintf(w, "%s  Signature\t\t\t : %s\n", indent, h.Signature)
-    fmt.Fprintf(w, "%s  Signature Type\t\t : %s\n", indent, h.SignatureType)
+	_, _ = fmt.Fprintf(w, "%sHard Drive Media Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  Partition Number\t\t : %d\n", indent, h.PartitionNumber)
+	_, _ = fmt.Fprintf(w, "%s  Partition Start (Sectors)\t : %d\n", indent, h.PartitionSectorStart)
+	_, _ = fmt.Fprintf(w, "%s  Partition Size (Sectors)\t : %d\n", indent, h.PartitionSectorSize)
+	_, _ = fmt.Fprintf(w, "%s  Partition End (Sectors)\t : %d\n", indent, h.PartitionSectorStart+h.PartitionSectorSize)
+	_, _ = fmt.Fprintf(w, "%s  Partition Type\t\t : %s\n", indent, h.PartitionType)
+	_, _ = fmt.Fprintf(w, "%s  Signature\t\t\t : %s\n", indent, h.Signature)
+	_, _ = fmt.Fprintf(w, "%s  Signature Type\t\t : %s\n", indent, h.SignatureType)
 }
 
 func parseHardDriveMediaNode(data []byte) (*HardDriveMediaNode, error) {

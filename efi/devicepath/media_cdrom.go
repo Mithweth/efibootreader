@@ -33,11 +33,11 @@ func (c *CdromMediaNode) GoString() string {
 }
 
 func (c *CdromMediaNode) dump(w io.Writer, indent string) {
-    fmt.Fprintf(w, "%sCD-Rom Media Node\n", indent)
-    fmt.Fprintf(w, "%s  Boot Entry\t\t : %d\n", indent, c.BootEntry)
-    fmt.Fprintf(w, "%s  Partition Start (Block)\t : %d\n", indent, c.PartitionBlockStart)
-    fmt.Fprintf(w, "%s  Partition Size (Block)\t : %d\n", indent, c.PartitionBlockSize)
-    fmt.Fprintf(w, "%s  Partition End (Block)\t : %d\n", indent, c.PartitionBlockStart + c.PartitionBlockSize)
+	_, _ = fmt.Fprintf(w, "%sCD-Rom Media Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  Boot Entry\t\t : %d\n", indent, c.BootEntry)
+	_, _ = fmt.Fprintf(w, "%s  Partition Start (Block)\t : %d\n", indent, c.PartitionBlockStart)
+	_, _ = fmt.Fprintf(w, "%s  Partition Size (Block)\t : %d\n", indent, c.PartitionBlockSize)
+	_, _ = fmt.Fprintf(w, "%s  Partition End (Block)\t : %d\n", indent, c.PartitionBlockStart+c.PartitionBlockSize)
 }
 
 func parseCdromMediaNode(data []byte) (*CdromMediaNode, error) {

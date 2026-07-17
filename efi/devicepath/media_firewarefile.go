@@ -2,8 +2,8 @@ package devicepath
 
 import (
 	"fmt"
-	"io"
 	"github.com/Mithweth/efibootreader/identifiers"
+	"io"
 )
 
 type FirewareFileMediaNode struct {
@@ -23,8 +23,8 @@ func (p *FirewareFileMediaNode) GoString() string {
 }
 
 func (p *FirewareFileMediaNode) dump(w io.Writer, indent string) {
-    fmt.Fprintf(w, "%sFireware File Media Node\n", indent)
-    fmt.Fprintf(w, "%s  GUID\t : %s\n", indent, p.GUID)
+	_, _ = fmt.Fprintf(w, "%sFireware File Media Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  GUID\t : %s\n", indent, p.GUID)
 }
 
 func parseFirewareFileMediaNode(data []byte) (*FirewareFileMediaNode, error) {

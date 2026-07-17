@@ -3,10 +3,10 @@ package efi
 import (
 	"encoding/binary"
 	"fmt"
+	"github.com/Mithweth/efibootreader/efi/backend"
+	"github.com/Mithweth/efibootreader/efi/devicepath"
 	"strings"
 	"unicode/utf16"
-	"github.com/Mithweth/efibootreader/efi/devicepath"
-	"github.com/Mithweth/efibootreader/efi/backend"
 )
 
 var be = backend.NewBackend()
@@ -20,12 +20,12 @@ type BootEntry struct {
 }
 
 func (b *BootEntry) Dump() string {
-    var s strings.Builder
-    fmt.Fprintf(&s, "ID\t\t : %04X\n", b.Attributes)
-    fmt.Fprintf(&s, "Description\t : %s\n", b.Description)
-    fmt.Fprintf(&s, "Length\t\t : %d\n", b.FilePathLength)
-    b.DevicePath.Dump(&s, "")
-    return s.String()
+	var s strings.Builder
+	fmt.Fprintf(&s, "ID\t\t : %04X\n", b.Attributes)
+	fmt.Fprintf(&s, "Description\t : %s\n", b.Description)
+	fmt.Fprintf(&s, "Length\t\t : %d\n", b.FilePathLength)
+	b.DevicePath.Dump(&s, "")
+	return s.String()
 }
 
 func IsEFI() bool {

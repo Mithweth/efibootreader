@@ -14,7 +14,7 @@ func (g GUID) String() string {
 }
 
 func (g GUID) GoString() string {
-    return fmt.Sprintf("efi.GUID(%q)", g.String())
+	return fmt.Sprintf("efi.GUID(%q)", g.String())
 }
 
 // GUID definition :

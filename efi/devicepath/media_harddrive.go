@@ -53,7 +53,7 @@ func (s SignatureType) GoString() string {
 	case SignatureGPT:
 		return "devicepath.SignatureGPT"
 	default:
-		return fmt.Sprintf("devicepath.Signature(%#x)", uint8(s))
+		return fmt.Sprintf("devicepath.SignatureType(%#x)", uint8(s))
 	}
 }
 

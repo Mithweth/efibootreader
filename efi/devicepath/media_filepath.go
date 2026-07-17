@@ -25,7 +25,7 @@ func (f *FilePathMediaNode) GoString() string {
 
 func (f *FilePathMediaNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "%sFile Path Media Node\n", indent)
-	_, _ = fmt.Fprintf(w, "%s  Path\t\t\t : %s\n", indent, f.Path)
+	_, _ = fmt.Fprintf(w, "%s  Path\t : %s\n", indent, f.Path)
 }
 
 func parseFilePathMediaNode(data []byte) (*FilePathMediaNode, error) {

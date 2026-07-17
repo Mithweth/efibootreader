@@ -17,6 +17,9 @@ func parseMessagingDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, e
 	case MessagingUsb:
 		return parseUsbMessagingNode(node.Data)
 
+	case MessagingInfiniBand:
+		return parseInfiniBandMessagingNode(node.Data)
+
 	case MessagingI2O:
 		return parseI2OMessagingNode(node.Data)
 
@@ -32,6 +35,9 @@ func parseMessagingDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, e
 	case MessagingIPv6:
 		return parseIPv6MessagingNode(node.Data)
 
+	case MessagingUart:
+		return parseUartMessagingNode(node.Data)
+
 	case MessagingUsbWwid:
 		return parseUsbWwidMessagingNode(node.Data)
 
@@ -40,6 +46,9 @@ func parseMessagingDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, e
 
 	case MessagingSata:
 		return parseSataMessagingNode(node.Data)
+
+	case MessagingVlan:
+		return parseVlanMessagingNode(node.Data)
 
 	case MessagingNvmeNamespace:
 		return parseNvmeNamespaceMessagingNode(node.Data)

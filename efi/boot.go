@@ -5,13 +5,17 @@ import (
 	"fmt"
 	"strings"
 	"unicode/utf16"
+	"github.com/Mithweth/efibootreader/efi/devicepath"
+	"github.com/Mithweth/efibootreader/efi/backend"
 )
+
+var be = backend.NewBackend()
 
 type BootEntry struct {
 	Attributes     uint32
 	Description    string
 	FilePathLength uint16
-	DevicePath     DevicePath
+	DevicePath     devicepath.DevicePath
 	OptionalData   []byte
 }
 
@@ -20,12 +24,12 @@ func (b *BootEntry) Dump() string {
     fmt.Fprintf(&s, "ID\t\t : %04X\n", b.Attributes)
     fmt.Fprintf(&s, "Description\t : %s\n", b.Description)
     fmt.Fprintf(&s, "Length\t\t : %d\n", b.FilePathLength)
-    b.DevicePath.dump(&s, "")
+    b.DevicePath.Dump(&s, "")
     return s.String()
 }
 
 func IsEFI() bool {
-	return backend.IsEfi()
+	return be.IsEfi()
 }
 
 func GetBootOrder() ([]uint16, error) {
@@ -41,11 +45,11 @@ func GetBootEntry(id uint16) (*BootEntry, error) {
 }
 
 func GetBootIds() ([]uint16, error) {
-	return backend.GetBootIds()
+	return be.GetBootIds()
 }
 
 func getUint16(name string) (uint16, error) {
-	variable, err := backend.GetVariable(name)
+	variable, err := be.GetVariable(name)
 	if err != nil {
 		return 0, err
 	}
@@ -58,7 +62,7 @@ func getUint16(name string) (uint16, error) {
 }
 
 func getUint16List(name string) ([]uint16, error) {
-	variable, err := backend.GetVariable(name)
+	variable, err := be.GetVariable(name)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +71,7 @@ func getUint16List(name string) ([]uint16, error) {
 }
 
 func getBootEntry(name string) (*BootEntry, error) {
-	variable, err := backend.GetVariable(name)
+	variable, err := be.GetVariable(name)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +101,7 @@ func ParseBootEntry(data []byte) (*BootEntry, error) {
 		return nil, fmt.Errorf("device path exceeds data: start=%d length=%d data=%d", i, length, len(data))
 	}
 	desc := string(utf16.Decode(runes))
-	devicePathNodes, err := ParseDevicePath(data[i:devicePathEnd])
+	devicePathNodes, err := devicepath.ParseDevicePath(data[i:devicePathEnd])
 	if err != nil {
 		return nil, err
 	}

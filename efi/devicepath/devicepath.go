@@ -38,7 +38,7 @@ func (i DevicePathInstance) GoString() string {
 	for _, node := range i.Nodes {
 		nodes = append(nodes, fmt.Sprintf("%#v", node.Details))
 	}
-	return fmt.Sprintf("[]efi.DevicePathNode{%s}", strings.Join(nodes, ", "))
+	return fmt.Sprintf("[]devicepath.DevicePathNode{%s}", strings.Join(nodes, ", "))
 }
 
 func (i DevicePathInstance) dump(w io.Writer, indent string) {

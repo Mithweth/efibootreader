@@ -32,11 +32,11 @@ func (h *IPv4MessagingNode) String() string {
 
 func (h *IPv4MessagingNode) GoString() string {
 	if h == nil {
-		return "(*efi.IPv4MessagingNode)(nil)"
+		return "(*devicepath.IPv4MessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&efi.IPv4MessagingNode{"+
+		"&devicepath.IPv4MessagingNode{"+
 			"LocalIPAddress:%#v, "+
 			"RemoteIPAddress:%#v, "+
 			"LocalPort:%#v, "+

@@ -33,6 +33,7 @@ const (
 	MessagingIeee1394          MessagingDevicePathSubType = 0x04
 	MessagingUsb               MessagingDevicePathSubType = 0x05
 	MessagingI2O               MessagingDevicePathSubType = 0x06
+	MessagingVendor        MessagingDevicePathSubType = 0x0a
 	MessagingMacAddress        MessagingDevicePathSubType = 0x0b
 	MessagingIPv4              MessagingDevicePathSubType = 0x0c
 	MessagingIPv6              MessagingDevicePathSubType = 0x0d
@@ -40,6 +41,10 @@ const (
 	MessagingLogicalUnit       MessagingDevicePathSubType = 0x11
 	MessagingSata              MessagingDevicePathSubType = 0x12
 	MessagingNvmeNamespace     MessagingDevicePathSubType = 0x17
+	MessagingUri  MessagingDevicePathSubType = 0x18
+	MessagingUfs  MessagingDevicePathSubType = 0x19
+	MessagingSd   MessagingDevicePathSubType = 0x1a
+	MessagingEmmc MessagingDevicePathSubType = 0x1d
 	EndThisInstanceSubType     EndDevicePathSubType       = 0x01
 	EndEntireDevicePathSubType EndDevicePathSubType       = 0xff
 )

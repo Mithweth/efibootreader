@@ -50,11 +50,11 @@ func (h *AtapiMessagingNode) String() string {
 
 func (h *AtapiMessagingNode) GoString() string {
 	if h == nil {
-		return "(*efi.AtapiMessagingNode)(nil)"
+		return "(*devicepath.AtapiMessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&efi.AtapiMessagingNode{"+
+		"&devicepath.AtapiMessagingNode{"+
 			"Controller:%#v, "+
 			"Drive:%#v, "+
 			"LogicalUnitNumber:%#v}",

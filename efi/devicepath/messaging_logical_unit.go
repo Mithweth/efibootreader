@@ -15,11 +15,11 @@ func (h *LogicalUnitMessagingNode) String() string {
 
 func (h *LogicalUnitMessagingNode) GoString() string {
 	if h == nil {
-		return "(*efi.LogicalUnitMessagingNode)(nil)"
+		return "(*devicepath.LogicalUnitMessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&efi.LogicalUnitMessagingNode{"+
+		"&devicepath.LogicalUnitMessagingNode{"+
 			"LogicalUnitNumber:%#v}",
 		h.LogicalUnitNumber,
 	)

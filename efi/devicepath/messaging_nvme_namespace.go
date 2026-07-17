@@ -22,11 +22,11 @@ func (h *NvmeNamespaceMessagingNode) String() string {
 
 func (h *NvmeNamespaceMessagingNode) GoString() string {
 	if h == nil {
-		return "(*efi.NvmeNamespaceMessagingNode)(nil)"
+		return "(*devicepath.NvmeNamespaceMessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&efi.NvmeNamespaceMessagingNode{"+
+		"&devicepath.NvmeNamespaceMessagingNode{"+
 			"NamespaceID:%#v, "+
 			"EUI64:%#v}",
 		h.NamespaceID,

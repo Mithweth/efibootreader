@@ -31,13 +31,13 @@ func (o IPv6AddressOrigin) String() string {
 func (o IPv6AddressOrigin) GoString() string {
 	switch o {
 	case IPv6AddressManual:
-		return "efi.IPv6AddressManual"
+		return "devicepath.IPv6AddressManual"
 	case IPv6AddressStatelessAutoConfigure:
-		return "efi.IPv6AddressStatelessAutoConfigure"
+		return "devicepath.IPv6AddressStatelessAutoConfigure"
 	case IPv6AddressStatefulAutoConfigure:
-		return "efi.IPv6AddressStatefulAutoConfigure"
+		return "devicepath.IPv6AddressStatefulAutoConfigure"
 	default:
-		return fmt.Sprintf("efi.IPv6AddressOrigin(%d)", uint8(o))
+		return fmt.Sprintf("devicepath.IPv6AddressOrigin(%d)", uint8(o))
 	}
 }
 
@@ -66,11 +66,11 @@ func (h *IPv6MessagingNode) String() string {
 
 func (h *IPv6MessagingNode) GoString() string {
 	if h == nil {
-		return "(*efi.IPv6MessagingNode)(nil)"
+		return "(*devicepath.IPv6MessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&efi.IPv6MessagingNode{"+
+		"&devicepath.IPv6MessagingNode{"+
 			"LocalIPAddress:%#v, "+
 			"RemoteIPAddress:%#v, "+
 			"LocalPort:%#v, "+

@@ -16,11 +16,11 @@ func (h *UsbMessagingNode) String() string {
 
 func (h *UsbMessagingNode) GoString() string {
 	if h == nil {
-		return "(*efi.UsbMessagingNode)(nil)"
+		return "(*devicepath.UsbMessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&efi.UsbMessagingNode{"+
+		"&devicepath.UsbMessagingNode{"+
 			"ParentPortNumber:%#v, "+
 			"InterfaceNumber:%#v}",
 		h.ParentPortNumber,
@@ -30,7 +30,7 @@ func (h *UsbMessagingNode) GoString() string {
 
 func (h *UsbMessagingNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "%sUSB Messaging Node\n", indent)
-	_, _ = fmt.Fprintf(w, "%s  Parent Port Number\t : %d\n", indent, h.ParentPortNumber)
+	_, _ = fmt.Fprintf(w, "%s  Parent Port\t : %d\n", indent, h.ParentPortNumber)
 	_, _ = fmt.Fprintf(w, "%s  Interface Number\t : %d\n", indent, h.InterfaceNumber)
 }
 

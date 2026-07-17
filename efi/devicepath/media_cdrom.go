@@ -18,11 +18,11 @@ func (c *CdromMediaNode) String() string {
 
 func (c *CdromMediaNode) GoString() string {
 	if c == nil {
-		return "(*efi.CdromMediaNode)(nil)"
+		return "(*devicepath.CdromMediaNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&efi.CdromMediaNode{"+
+		"&devicepath.CdromMediaNode{"+
 			"BootEntry:%#v, "+
 			"PartitionBlockStart:%#v, "+
 			"PartitionBlockSize:%#v}",

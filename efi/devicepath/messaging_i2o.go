@@ -16,11 +16,11 @@ func (h *I2OMessagingNode) String() string {
 
 func (h *I2OMessagingNode) GoString() string {
 	if h == nil {
-		return "(*efi.I2OMessagingNode)(nil)"
+		return "(*devicepath.I2OMessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&efi.I2OMessagingNode{"+
+		"&devicepath.I2OMessagingNode{"+
 			"TargetID:%#v}",
 		h.TargetID,
 	)

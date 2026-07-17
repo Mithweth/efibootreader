@@ -18,11 +18,11 @@ func (h *FibreChannelMessagingNode) String() string {
 
 func (h *FibreChannelMessagingNode) GoString() string {
 	if h == nil {
-		return "(*efi.FibreChannelMessagingNode)(nil)"
+		return "(*devicepath.FibreChannelMessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&efi.FibreChannelMessagingNode{"+
+		"&devicepath.FibreChannelMessagingNode{"+
 			"Reserved:%#v, "+
 			"WorldWideName:%#v, "+
 			"LogicalUnitNumber:%#v}",

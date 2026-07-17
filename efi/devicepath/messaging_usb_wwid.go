@@ -20,11 +20,11 @@ func (h *UsbWwidMessagingNode) String() string {
 
 func (h *UsbWwidMessagingNode) GoString() string {
 	if h == nil {
-		return "(*efi.UsbWwidMessagingNode)(nil)"
+		return "(*devicepath.UsbWwidMessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&efi.UsbWwidMessagingNode{"+
+		"&devicepath.UsbWwidMessagingNode{"+
 			"InterfaceNumber:%#v, "+
 			"VendorID:%#v, "+
 			"ProductID:%#v, "+

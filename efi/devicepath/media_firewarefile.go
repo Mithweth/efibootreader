@@ -16,15 +16,19 @@ func (p *FirewareFileMediaNode) String() string {
 
 func (p *FirewareFileMediaNode) GoString() string {
 	if p == nil {
-		return "(*efi.FirewareFileMediaNode)(nil)"
+		return "(*devicepath.FirewareFileMediaNode)(nil)"
 	}
 
-	return fmt.Sprintf("&efi.FirewareFileMediaNode{GUID:%#v}", p.GUID)
+	return fmt.Sprintf("&devicepath.FirewareFileMediaNode{GUID:%#v}", p.GUID)
 }
 
 func (p *FirewareFileMediaNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "%sFireware File Media Node\n", indent)
-	_, _ = fmt.Fprintf(w, "%s  GUID\t : %s\n", indent, p.GUID)
+	_, _ = fmt.Fprintf(w, "%s  GUID\t : %s", indent, p.GUID)
+	if description, ok := identifiers.LookupGUID(p.GUID); ok {
+		_, _ = fmt.Fprintf(w, " (%s)", description)
+	}
+	_, _ = fmt.Fprintf(w, "\n")
 }
 
 func parseFirewareFileMediaNode(data []byte) (*FirewareFileMediaNode, error) {

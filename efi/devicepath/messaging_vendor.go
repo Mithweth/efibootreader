@@ -6,26 +6,26 @@ import (
 	"io"
 )
 
-type VendorMediaNode struct {
+type VendorMessagingNode struct {
 	GUID identifiers.GUID
 	Data []byte
 }
 
-func (v *VendorMediaNode) String() string {
+func (v *VendorMessagingNode) String() string {
 	if len(v.Data) == 0 {
-		return fmt.Sprintf("VenMedia(%s)", v.GUID)
+		return fmt.Sprintf("VenMsg(%s)", v.GUID)
 	}
 
-	return fmt.Sprintf("VenMedia(%s,%x)", v.GUID, v.Data)
+	return fmt.Sprintf("VenMsg(%s,%x)", v.GUID, v.Data)
 }
 
-func (v *VendorMediaNode) GoString() string {
+func (v *VendorMessagingNode) GoString() string {
 	if v == nil {
-		return "(*devicepath.VendorMediaNode)(nil)"
+		return "(*devicepath.VendorMessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&devicepath.VendorMediaNode{"+
+		"&devicepath.VendorMessagingNode{"+
 			"GUID:%#v, "+
 			"Data:%#v}",
 		v.GUID,
@@ -33,19 +33,19 @@ func (v *VendorMediaNode) GoString() string {
 	)
 }
 
-func (v *VendorMediaNode) dump(w io.Writer, indent string) {
-	_, _ = fmt.Fprintf(w, "%sVendor Media Node\n", indent)
+func (v *VendorMessagingNode) dump(w io.Writer, indent string) {
+	_, _ = fmt.Fprintf(w, "%sVendor Messaging Node\n", indent)
 	_, _ = fmt.Fprintf(w, "%s  GUID\t : %s", indent, v.GUID)
 	if description, ok := identifiers.LookupGUID(v.GUID); ok {
 		_, _ = fmt.Fprintf(w, " (%s)", description)
 	}
-	_, _ = fmt.Fprintf(w, "\n%s  Data\t : %s\n", indent, v.Data)
+	_, _ = fmt.Fprintf(w, "\n%s  Data\t : %x\n", indent, v.Data)
 }
 
-func parseVendorMediaNode(data []byte) (*VendorMediaNode, error) {
+func parseVendorMessagingNode(data []byte) (*VendorMessagingNode, error) {
 	if len(data) < 16 {
 		return nil, fmt.Errorf(
-			"invalid vendor media node payload size: got %d, want at least 16",
+			"invalid vendor messaging node payload size: got %d, want at least 16",
 			len(data),
 		)
 	}
@@ -58,7 +58,7 @@ func parseVendorMediaNode(data []byte) (*VendorMediaNode, error) {
 	vendorData := make([]byte, len(data)-16)
 	copy(vendorData, data[16:])
 
-	return &VendorMediaNode{
+	return &VendorMessagingNode{
 		GUID: guid,
 		Data: vendorData,
 	}, nil

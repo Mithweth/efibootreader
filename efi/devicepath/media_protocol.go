@@ -16,15 +16,19 @@ func (p *ProtocolMediaNode) String() string {
 
 func (p *ProtocolMediaNode) GoString() string {
 	if p == nil {
-		return "(*efi.ProtocolMediaNode)(nil)"
+		return "(*devicepath.ProtocolMediaNode)(nil)"
 	}
 
-	return fmt.Sprintf("&efi.ProtocolMediaNode{GUID:%#v}", p.GUID)
+	return fmt.Sprintf("&devicepath.ProtocolMediaNode{GUID:%#v}", p.GUID)
 }
 
 func (p *ProtocolMediaNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "%sProtocol Media Node\n", indent)
-	_, _ = fmt.Fprintf(w, "%s  GUID\t\t : %s\n", indent, p.GUID)
+	_, _ = fmt.Fprintf(w, "%s  GUID\t\t : %s", indent, p.GUID)
+	if description, ok := identifiers.LookupGUID(p.GUID); ok {
+		_, _ = fmt.Fprintf(w, " (%s)", description)
+	}
+	_, _ = fmt.Fprintf(w, "\n")
 }
 
 func parseProtocolMediaNode(data []byte) (*ProtocolMediaNode, error) {

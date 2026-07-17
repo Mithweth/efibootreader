@@ -23,11 +23,11 @@ func (h *SataMessagingNode) String() string {
 
 func (h *SataMessagingNode) GoString() string {
 	if h == nil {
-		return "(*efi.SataMessagingNode)(nil)"
+		return "(*devicepath.SataMessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&efi.SataMessagingNode{"+
+		"&devicepath.SataMessagingNode{"+
 			"HBAPortNumber:%#v, "+
 			"PortMultiplierPortNumber:%#v, "+
 			"LogicalUnitNumber:%#v}",

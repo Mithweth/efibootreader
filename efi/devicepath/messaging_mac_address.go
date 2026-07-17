@@ -21,11 +21,11 @@ func (h *MacAddressMessagingNode) String() string {
 
 func (h *MacAddressMessagingNode) GoString() string {
 	if h == nil {
-		return "(*efi.MacAddressMessagingNode)(nil)"
+		return "(*devicepath.MacAddressMessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&efi.MacAddressMessagingNode{"+
+		"&devicepath.MacAddressMessagingNode{"+
 			"Address:%#v, "+
 			"InterfaceType:%#v}",
 		h.Address,

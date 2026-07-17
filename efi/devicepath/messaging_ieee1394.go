@@ -17,11 +17,11 @@ func (h *Ieee1394MessagingNode) String() string {
 
 func (h *Ieee1394MessagingNode) GoString() string {
 	if h == nil {
-		return "(*efi.Ieee1394MessagingNode)(nil)"
+		return "(*devicepath.Ieee1394MessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&efi.Ieee1394MessagingNode{"+
+		"&devicepath.Ieee1394MessagingNode{"+
 			"Reserved:%#v, "+
 			"GUID:%#v}",
 		h.Reserved,

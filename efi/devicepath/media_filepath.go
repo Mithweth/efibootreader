@@ -17,10 +17,10 @@ func (f *FilePathMediaNode) String() string {
 
 func (f *FilePathMediaNode) GoString() string {
 	if f == nil {
-		return "(*efi.FilePathMediaNode)(nil)"
+		return "(*devicepath.FilePathMediaNode)(nil)"
 	}
 
-	return fmt.Sprintf("&efi.FilePathMediaNode{Path:%#v}", f.Path)
+	return fmt.Sprintf("&devicepath.FilePathMediaNode{Path:%#v}", f.Path)
 }
 
 func (f *FilePathMediaNode) dump(w io.Writer, indent string) {

@@ -17,11 +17,11 @@ func (h *ScsiMessagingNode) String() string {
 
 func (h *ScsiMessagingNode) GoString() string {
 	if h == nil {
-		return "(*efi.ScsiMessagingNode)(nil)"
+		return "(*devicepath.ScsiMessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&efi.ScsiMessagingNode{"+
+		"&devicepath.ScsiMessagingNode{"+
 			"TargetID:%#v, "+
 			"LogicalUnitNumber:%#v}",
 		h.TargetID,

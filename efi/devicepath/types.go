@@ -42,6 +42,7 @@ const (
 	MessagingUsbWwid           MessagingDevicePathSubType = 0x10
 	MessagingLogicalUnit       MessagingDevicePathSubType = 0x11
 	MessagingSata              MessagingDevicePathSubType = 0x12
+	MessagingIScsi             MessagingDevicePathSubType = 0x13
 	MessagingVlan              MessagingDevicePathSubType = 0x14
 	MessagingNvmeNamespace     MessagingDevicePathSubType = 0x17
 	MessagingUri               MessagingDevicePathSubType = 0x18

@@ -26,11 +26,11 @@ func (t IPv4AddressType) String() string {
 func (t IPv4AddressType) GoString() string {
 	switch t {
 	case IPv4AddressDHCP:
-		return "efi.IPv4AddressDHCP"
+		return "network.IPv4AddressDHCP"
 	case IPv4AddressStatic:
-		return "efi.IPv4AddressStatic"
+		return "network.IPv4AddressStatic"
 	default:
-		return fmt.Sprintf("efi.IPv4AddressType(%d)", uint8(t))
+		return fmt.Sprintf("network.IPv4AddressType(%d)", uint8(t))
 	}
 }
 
@@ -45,7 +45,7 @@ func (a IPv4Address) String() string {
 }
 
 func (a IPv4Address) GoString() string {
-	return fmt.Sprintf("efi.IPv4Address{%s}", a)
+	return fmt.Sprintf("network.MustParseIPv4Address(%q)", a.String())
 }
 
 func ParseIPv4Address(data []byte) (IPv4Address, error) {
@@ -57,4 +57,20 @@ func ParseIPv4Address(data []byte) (IPv4Address, error) {
 	}
 
 	return IPv4Address{data[0], data[1], data[2], data[3]}, nil
+}
+
+func MustParseIPv4Address(s string) IPv4Address {
+	addr, err := netip.ParseAddr(s)
+	if err != nil {
+		panic(fmt.Sprintf("network.MustParseIPv4Address(%q): %v", s, err))
+	}
+
+	if !addr.Is4() {
+		panic(fmt.Sprintf(
+			"network.MustParseIPv4Address(%q): not an IPv4 address",
+			s,
+		))
+	}
+
+	return IPv4Address(addr.As4())
 }

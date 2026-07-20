@@ -38,6 +38,9 @@ func parseMessagingDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, e
 	case MessagingUart:
 		return parseUartMessagingNode(node.Data)
 
+	case MessagingUsbClass:
+		return parseUsbClassMessagingNode(node.Data)
+
 	case MessagingUsbWwid:
 		return parseUsbWwidMessagingNode(node.Data)
 
@@ -50,14 +53,29 @@ func parseMessagingDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, e
 	case MessagingVlan:
 		return parseVlanMessagingNode(node.Data)
 
+	case MessagingFibreChannelEx:
+		return parseFibreChannelExMessagingNode(node.Data)
+
 	case MessagingNvmeNamespace:
 		return parseNvmeNamespaceMessagingNode(node.Data)
+
+	case MessagingSd:
+		return parseSdMessagingNode(node.Data)
+
+	case MessagingBluetooth:
+		return parseBluetoothMessagingNode(node.Data)
+
+	case MessagingWifi:
+		return parseWifiMessagingNode(node.Data)
 
 	case MessagingEmmc:
 		return parseEmmcMessagingNode(node.Data)
 
-	case MessagingSd:
-		return parseSdMessagingNode(node.Data)
+	case MessagingBluetoothLE:
+		return parseBluetoothLEMessagingNode(node.Data)
+
+	case MessagingDns:
+		return parseDnsMessagingNode(node.Data)
 
 	case MessagingUri:
 		return parseUriMessagingNode(node.Data)

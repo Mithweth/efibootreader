@@ -39,16 +39,22 @@ const (
 	MessagingIPv4              MessagingDevicePathSubType = 0x0c
 	MessagingIPv6              MessagingDevicePathSubType = 0x0d
 	MessagingUart              MessagingDevicePathSubType = 0x0e
+	MessagingUsbClass          MessagingDevicePathSubType = 0x0f
 	MessagingUsbWwid           MessagingDevicePathSubType = 0x10
 	MessagingLogicalUnit       MessagingDevicePathSubType = 0x11
 	MessagingSata              MessagingDevicePathSubType = 0x12
 	MessagingIScsi             MessagingDevicePathSubType = 0x13
 	MessagingVlan              MessagingDevicePathSubType = 0x14
+	MessagingFibreChannelEx    MessagingDevicePathSubType = 0x15
 	MessagingNvmeNamespace     MessagingDevicePathSubType = 0x17
 	MessagingUri               MessagingDevicePathSubType = 0x18
 	MessagingUfs               MessagingDevicePathSubType = 0x19
 	MessagingSd                MessagingDevicePathSubType = 0x1a
+	MessagingBluetooth         MessagingDevicePathSubType = 0x1b
+	MessagingWifi              MessagingDevicePathSubType = 0x1c
 	MessagingEmmc              MessagingDevicePathSubType = 0x1d
+	MessagingBluetoothLE       MessagingDevicePathSubType = 0x1e
+	MessagingDns               MessagingDevicePathSubType = 0x1f
 	EndThisInstanceSubType     EndDevicePathSubType       = 0x01
 	EndEntireDevicePathSubType EndDevicePathSubType       = 0xff
 )

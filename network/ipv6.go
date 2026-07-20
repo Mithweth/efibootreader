@@ -12,7 +12,7 @@ func (a IPv6Address) String() string {
 }
 
 func (a IPv6Address) GoString() string {
-	return fmt.Sprintf("efi.IPv6Address{%s}", a)
+	return fmt.Sprintf("network.MustParseIPv6Address(%q)", a.String())
 }
 
 func ParseIPv6Address(data []byte) (IPv6Address, error) {
@@ -27,4 +27,20 @@ func ParseIPv6Address(data []byte) (IPv6Address, error) {
 	copy(address[:], data)
 
 	return address, nil
+}
+
+func MustParseIPv6Address(s string) IPv6Address {
+	addr, err := netip.ParseAddr(s)
+	if err != nil {
+		panic(fmt.Sprintf("network.MustParseIPv6Address(%q): %v", s, err))
+	}
+
+	if !addr.Is6() {
+		panic(fmt.Sprintf(
+			"network.MustParseIPv6Address(%q): not an IPv6 address",
+			s,
+		))
+	}
+
+	return IPv6Address(addr.As16())
 }

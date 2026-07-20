@@ -38,3 +38,7 @@ func ParseGUID(data []byte) (GUID, error) {
 		data[12], data[13], data[14], data[15],
 	}, nil
 }
+
+func MustParseEFIGUID(s string) GUID {
+	return GUID(uuid.MustParse(s))
+}

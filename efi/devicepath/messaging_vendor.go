@@ -5,6 +5,7 @@ import (
 	"github.com/Mithweth/efibootreader/identifiers"
 	"io"
 	"strconv"
+	"encoding/binary"
 )
 
 var (
@@ -12,18 +13,18 @@ var (
 	uartFlowControlGUID = identifiers.MustParseEFIGUID("37499a9d-542f-4c89-a026-35da142094e4")
 )
 
-type VendorMessagingNodeInterface interface {
+type VendorMessagingNode interface {
 	String() string
 	GoString() string
 	dump(w io.Writer, indent string)
 }
 
-type VendorMessagingNode struct {
+type GenericVendorMessagingNode struct {
 	GUID identifiers.GUID
 	Data []byte
 }
 
-func (v *VendorMessagingNode) String() string {
+func (v *GenericVendorMessagingNode) String() string {
 	if len(v.Data) == 0 {
 		return fmt.Sprintf("VenMsg(%s)", v.GUID)
 	}
@@ -31,13 +32,13 @@ func (v *VendorMessagingNode) String() string {
 	return fmt.Sprintf("VenMsg(%s,%x)", v.GUID, v.Data)
 }
 
-func (v *VendorMessagingNode) GoString() string {
+func (v *GenericVendorMessagingNode) GoString() string {
 	if v == nil {
-		return "(*devicepath.VendorMessagingNode)(nil)"
+		return "(*devicepath.GenericVendorMessagingNode)(nil)"
 	}
 
 	return fmt.Sprintf(
-		"&devicepath.VendorMessagingNode{"+
+		"&devicepath.GenericVendorMessagingNode{"+
 			"GUID:%#v, "+
 			"Data:%#v}",
 		v.GUID,
@@ -45,7 +46,7 @@ func (v *VendorMessagingNode) GoString() string {
 	)
 }
 
-func (v *VendorMessagingNode) dump(w io.Writer, indent string) {
+func (v *GenericVendorMessagingNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "%sVendor Messaging Node\n", indent)
 	_, _ = fmt.Fprintf(w, "%s  GUID\t : %s", indent, v.GUID)
 	if description, ok := identifiers.LookupGUID(v.GUID); ok {
@@ -54,7 +55,7 @@ func (v *VendorMessagingNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "\n%s  Data\t : %x\n", indent, v.Data)
 }
 
-func parseVendorMessagingNode(data []byte) (VendorMessagingNodeInterface, error) {
+func parseVendorMessagingNode(data []byte) (VendorMessagingNode, error) {
 	if len(data) < 16 {
 		return nil, fmt.Errorf(
 			"invalid vendor messaging node payload size: got %d, want at least 16",
@@ -67,19 +68,15 @@ func parseVendorMessagingNode(data []byte) (VendorMessagingNodeInterface, error)
 		return nil, fmt.Errorf("parse vendor GUID: %w", err)
 	}
 
+	vendorData := make([]byte, len(data)-16)
+	copy(vendorData, data[16:])
 	switch guid {
 	case sasDevicePathGUID:
-		return parseSasMessagingNode(data)
+		return parseSasMessagingNode(vendorData)
 	case uartFlowControlGUID:
-		return parseUartFlowControlMessagingNode(data)
+		return parseUartFlowControlMessagingNode(vendorData)
 	default:
-		vendorData := make([]byte, len(data)-16)
-		copy(vendorData, data[16:])
-
-		return &VendorMessagingNode{
-			GUID: guid,
-			Data: vendorData,
-		}, nil
+		return &GenericVendorMessagingNode{GUID: guid, Data: vendorData}, nil
 	}
 }
 
@@ -222,10 +219,85 @@ func (v *SasMessagingNode) dump(w io.Writer, indent string) {
 	v.DeviceInfo.dump(w, indent+"  ")
 }
 
-func parseUartFlowControlMessagingNode(data []byte) (*SasMessagingNode, error) {
-	return nil, nil
+func parseSasMessagingNode(data []byte) (*SasMessagingNode, error) {
+	if len(data) != 24 {
+		return nil, fmt.Errorf(
+			"invalid SAS messaging node payload size: got %d, want 24",
+			len(data),
+		)
+	}
+
+	return &SasMessagingNode{
+		Reserved: binary.LittleEndian.Uint32(data[:4]),
+		Address: binary.LittleEndian.Uint64(data[4:12]),
+		LogicalUnitNumber: binary.LittleEndian.Uint64(data[12:20]),
+		DeviceInfo: SasMessagingDeviceInfo(binary.LittleEndian.Uint16(data[20:22])),
+		RelativeTargetPort: binary.LittleEndian.Uint16(data[22:]),
+	}, nil
 }
 
-func parseSasMessagingNode(data []byte) (*SasMessagingNode, error) {
-	return nil, nil
+type UartFlowControlMessagingType uint32
+
+const (
+	UartFlowControlMessagingTypeNone UartFlowControlMessagingType = 0
+	UartFlowControlMessagingTypeHardware UartFlowControlMessagingType = 1
+	UartFlowControlMessagingTypeXonXoff UartFlowControlMessagingType = 2
+	UartFlowControlMessagingTypeHardwareXonXoff UartFlowControlMessagingType = 3
+)
+
+type UartFlowControlMessagingNode struct {
+	FlowControlMap     UartFlowControlMessagingType
+}
+
+func (u UartFlowControlMessagingType) String() string {
+	switch u {
+	case UartFlowControlMessagingTypeNone:
+	    return "None"
+	case UartFlowControlMessagingTypeHardware:
+	    return "Hardware"
+	case UartFlowControlMessagingTypeXonXoff:
+	    return "XonXoff"
+	case UartFlowControlMessagingTypeHardwareXonXoff:
+	    return "Hardware+XonXoff"
+	default:
+	    return strconv.FormatUint(uint64(u), 10)
+	}
+}
+
+func (u UartFlowControlMessagingType) GoString() string {
+	return fmt.Sprintf("devicepath.UartFlowControlMessagingType(%#x)", uint32(u))
+}
+
+func (v *UartFlowControlMessagingNode) String() string {
+	return fmt.Sprintf("UartFlowCtrl(%s)", v.FlowControlMap)
+}
+
+func (v *UartFlowControlMessagingNode) GoString() string {
+	if v == nil {
+		return "(*devicepath.UartFlowControlMessagingNode)(nil)"
+	}
+
+	return fmt.Sprintf(
+		"&devicepath.UartFlowControlMessagingNode{"+
+			"FlowControlMap:%#v}",
+		v.FlowControlMap,
+	)
+}
+
+func (v *UartFlowControlMessagingNode) dump(w io.Writer, indent string) {
+	_, _ = fmt.Fprintf(w, "%sUART Flow Control Messaging Node\n", indent)
+	_, _ = fmt.Fprintf(w, "%s  Flow ControlMap\t : %s (0b%032b)\n", indent, v.FlowControlMap, v.FlowControlMap)
+}
+
+func parseUartFlowControlMessagingNode(data []byte) (*UartFlowControlMessagingNode, error) {
+	if len(data) != 4 {
+		return nil, fmt.Errorf(
+			"invalid Uart flow control messaging node payload size: got %d, want 4",
+			len(data),
+		)
+	}
+
+	return &UartFlowControlMessagingNode{
+		FlowControlMap: UartFlowControlMessagingType(binary.LittleEndian.Uint32(data)),
+	}, nil
 }

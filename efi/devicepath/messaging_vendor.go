@@ -1,11 +1,11 @@
 package devicepath
 
 import (
+	"encoding/binary"
 	"fmt"
 	"github.com/Mithweth/efibootreader/identifiers"
 	"io"
 	"strconv"
-	"encoding/binary"
 )
 
 var (
@@ -160,7 +160,7 @@ func (i SasMessagingDeviceInfo) dump(w io.Writer, indent string) {
 }
 
 func (v *SasMessagingNode) String() string {
-	retval := fmt.Sprintf("SAS(0x%x,0x%x,%d", v.Address, v.LogicalUnitNumber, v.RelativeTargetPort)
+	retval := fmt.Sprintf("SAS(%#x,%#x,%d", v.Address, v.LogicalUnitNumber, v.RelativeTargetPort)
 	length := v.DeviceInfo.InformationLength()
 	switch length {
 	case 0:
@@ -182,10 +182,10 @@ func (v *SasMessagingNode) String() string {
 				retval += ",0"
 			}
 
-			retval += fmt.Sprintf(",0x%x", v.Reserved)
+			retval += fmt.Sprintf(",%#x", v.Reserved)
 		}
 	default:
-		retval += fmt.Sprintf(",0x%x", uint16(v.DeviceInfo))
+		retval += fmt.Sprintf(",%#x", uint16(v.DeviceInfo))
 	}
 	return retval + ")"
 }
@@ -228,10 +228,10 @@ func parseSasMessagingNode(data []byte) (*SasMessagingNode, error) {
 	}
 
 	return &SasMessagingNode{
-		Reserved: binary.LittleEndian.Uint32(data[:4]),
-		Address: binary.LittleEndian.Uint64(data[4:12]),
-		LogicalUnitNumber: binary.LittleEndian.Uint64(data[12:20]),
-		DeviceInfo: SasMessagingDeviceInfo(binary.LittleEndian.Uint16(data[20:22])),
+		Reserved:           binary.LittleEndian.Uint32(data[:4]),
+		Address:            binary.LittleEndian.Uint64(data[4:12]),
+		LogicalUnitNumber:  binary.LittleEndian.Uint64(data[12:20]),
+		DeviceInfo:         SasMessagingDeviceInfo(binary.LittleEndian.Uint16(data[20:22])),
 		RelativeTargetPort: binary.LittleEndian.Uint16(data[22:]),
 	}, nil
 }
@@ -239,28 +239,28 @@ func parseSasMessagingNode(data []byte) (*SasMessagingNode, error) {
 type UartFlowControlMessagingType uint32
 
 const (
-	UartFlowControlMessagingTypeNone UartFlowControlMessagingType = 0
-	UartFlowControlMessagingTypeHardware UartFlowControlMessagingType = 1
-	UartFlowControlMessagingTypeXonXoff UartFlowControlMessagingType = 2
+	UartFlowControlMessagingTypeNone            UartFlowControlMessagingType = 0
+	UartFlowControlMessagingTypeHardware        UartFlowControlMessagingType = 1
+	UartFlowControlMessagingTypeXonXoff         UartFlowControlMessagingType = 2
 	UartFlowControlMessagingTypeHardwareXonXoff UartFlowControlMessagingType = 3
 )
 
 type UartFlowControlMessagingNode struct {
-	FlowControlMap     UartFlowControlMessagingType
+	FlowControlMap UartFlowControlMessagingType
 }
 
 func (u UartFlowControlMessagingType) String() string {
 	switch u {
 	case UartFlowControlMessagingTypeNone:
-	    return "None"
+		return "None"
 	case UartFlowControlMessagingTypeHardware:
-	    return "Hardware"
+		return "Hardware"
 	case UartFlowControlMessagingTypeXonXoff:
-	    return "XonXoff"
+		return "XonXoff"
 	case UartFlowControlMessagingTypeHardwareXonXoff:
-	    return "Hardware+XonXoff"
+		return "Hardware+XonXoff"
 	default:
-	    return strconv.FormatUint(uint64(u), 10)
+		return strconv.FormatUint(uint64(u), 10)
 	}
 }
 

@@ -56,8 +56,17 @@ func parseMessagingDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, e
 	case MessagingFibreChannelEx:
 		return parseFibreChannelExMessagingNode(node.Data)
 
+	case MessagingSasEx:
+		return parseSasExMessagingNode(node.Data)
+
 	case MessagingNvmeNamespace:
 		return parseNvmeNamespaceMessagingNode(node.Data)
+
+	case MessagingUri:
+		return parseUriMessagingNode(node.Data)
+
+	case MessagingUfs:
+		return parseUfsMessagingNode(node.Data)
 
 	case MessagingSd:
 		return parseSdMessagingNode(node.Data)
@@ -77,11 +86,14 @@ func parseMessagingDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, e
 	case MessagingDns:
 		return parseDnsMessagingNode(node.Data)
 
-	case MessagingUri:
-		return parseUriMessagingNode(node.Data)
+	case MessagingNvdimmNamespace:
+		return parseNvdimmNamespaceMessagingNode(node.Data)
 
-	case MessagingUfs:
-		return parseUfsMessagingNode(node.Data)
+	case MessagingRestService:
+		return parseRestServiceMessagingNode(node.Data)
+
+	case MessagingNvmeOfNamespace:
+		return parseNvmeOfNamespaceMessagingNode(node.Data)
 
 	default:
 		return unknownDevicePathNode(node), nil

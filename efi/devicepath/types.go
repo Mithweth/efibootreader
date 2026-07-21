@@ -46,6 +46,7 @@ const (
 	MessagingIScsi             MessagingDevicePathSubType = 0x13
 	MessagingVlan              MessagingDevicePathSubType = 0x14
 	MessagingFibreChannelEx    MessagingDevicePathSubType = 0x15
+	MessagingSasEx             MessagingDevicePathSubType = 0x16
 	MessagingNvmeNamespace     MessagingDevicePathSubType = 0x17
 	MessagingUri               MessagingDevicePathSubType = 0x18
 	MessagingUfs               MessagingDevicePathSubType = 0x19
@@ -55,6 +56,9 @@ const (
 	MessagingEmmc              MessagingDevicePathSubType = 0x1d
 	MessagingBluetoothLE       MessagingDevicePathSubType = 0x1e
 	MessagingDns               MessagingDevicePathSubType = 0x1f
+	MessagingNvdimmNamespace   MessagingDevicePathSubType = 0x20
+	MessagingRestService       MessagingDevicePathSubType = 0x21
+	MessagingNvmeOfNamespace   MessagingDevicePathSubType = 0x22
 	EndThisInstanceSubType     EndDevicePathSubType       = 0x01
 	EndEntireDevicePathSubType EndDevicePathSubType       = 0xff
 )

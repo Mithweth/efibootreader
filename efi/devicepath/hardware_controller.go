@@ -15,7 +15,7 @@ type ControllerHardwareNode struct {
 // "Name your controller or be lost among its siblings!"
 // "Ctrl(number) it is — the controller's own number in hex, nothing else required."
 func (c *ControllerHardwareNode) String() string {
-	return fmt.Sprintf("Ctrl(0x%x)", c.ControllerNumber)
+	return fmt.Sprintf("Ctrl(%d)", c.ControllerNumber)
 }
 
 // "A nil controller node still dares to answer my hail? Impossible!"

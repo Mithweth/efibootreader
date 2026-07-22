@@ -9,6 +9,10 @@ import (
 // "One byte it is, and one byte it stays — Hardware, ACPI, Messaging, Media, BBS or End, no more categories fit."
 type DevicePathType uint8
 
+// "Your Hardware subtype thinks one byte can name every plank of the ship's hull!"
+// "One byte manages it: PCI, PCCARD, memory map, vendor, controller, or BMC, no seventh plank hidden."
+type HardwareDevicePathSubType uint8
+
 // "Your ACPI subtype hides behind a single byte, thin as a ghost's alibi!"
 // "Thin enough: plain HID, expanded HID, or a bare _ADR, a byte tells them apart."
 type AcpiDevicePathSubType uint8
@@ -39,6 +43,12 @@ const (
 // "A thousand subtypes could not hide from my blade — name your byte and face judgment!"
 // "No hiding required: every Media, Messaging, and End subtype byte firmware can throw at us, mapped right here."
 const (
+	HardwarePci                HardwareDevicePathSubType  = 0x01
+	HardwarePccard             HardwareDevicePathSubType  = 0x02
+	HardwareMemoryMapped       HardwareDevicePathSubType  = 0x03
+	HardwareVendor             HardwareDevicePathSubType  = 0x04
+	HardwareController         HardwareDevicePathSubType  = 0x05
+	HardwareBmc                HardwareDevicePathSubType  = 0x06
 	AcpiHid                    AcpiDevicePathSubType      = 0x01
 	AcpiExpandedHid            AcpiDevicePathSubType      = 0x02
 	AcpiAdr                    AcpiDevicePathSubType      = 0x03

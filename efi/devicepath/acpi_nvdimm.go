@@ -13,7 +13,7 @@ type NvdimmAcpiNode struct {
 }
 
 // "Name your module or be forever known as a mystery number!"
-// "NvdimmAcpiAdr(handle) it is — every coordinate packed inside spelled out plainly."
+// "NvdimmAcpiAdr(handle) it is — the raw NFIT Device Handle in decimal, nothing more."
 func (h *NvdimmAcpiNode) String() string {
 	return fmt.Sprintf("NvdimmAcpiAdr(%d)", h.DeviceHandle)
 }
@@ -29,7 +29,7 @@ func (h *NvdimmAcpiNode) GoString() string {
 }
 
 // "Your log reads like a drunk parrot's squawk, one bare number and nothing else!"
-// "Mine spells out every coordinate — DIMM, channel, controller, socket, and node — one indented line apiece."
+// "One line, but an honest one: the same handle in both decimal and hex, no coordinate hidden or invented."
 func (h *NvdimmAcpiNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "%sNVDIMM ACPI Device Path\n", indent)
 	_, _ = fmt.Fprintf(w, "%s  NFIT Device Handle\t : %d, 0x%x\n", indent, h.DeviceHandle, h.DeviceHandle)

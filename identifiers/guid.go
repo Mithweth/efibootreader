@@ -1,9 +1,16 @@
 package identifiers
 
 import (
+	_ "embed"
+	"encoding/json"
 	"fmt"
 	"github.com/google/uuid"
 )
+
+//go:embed guids.json
+var guidDatabaseData []byte
+
+var guidDatabase map[string]string
 
 type GUID uuid.UUID
 
@@ -14,7 +21,7 @@ func (g GUID) String() string {
 }
 
 func (g GUID) GoString() string {
-	return fmt.Sprintf("efi.GUID(%q)", g.String())
+	return fmt.Sprintf("identifiers.GUID(%q)", g.String())
 }
 
 // GUID definition :
@@ -41,4 +48,15 @@ func ParseGUID(data []byte) (GUID, error) {
 
 func MustParseEFIGUID(s string) GUID {
 	return GUID(uuid.MustParse(s))
+}
+
+func init() {
+	if err := json.Unmarshal(guidDatabaseData, &guidDatabase); err != nil {
+		panic(fmt.Errorf("unable to load GUID database: %w", err))
+	}
+}
+
+func LookupGUID(g GUID) (string, bool) {
+	description, ok := guidDatabase[g.String()]
+	return description, ok
 }

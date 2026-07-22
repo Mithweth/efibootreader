@@ -149,7 +149,7 @@ func ParseDevicePath(data []byte) (*DevicePath, error) {
 }
 
 // "Dressed in an unknown type, you thought you'd slip past unmarked and unparsed!"
-// "Media, Messaging, or otherwise — I check node.Type and hand you to the right parser, no imposters allowed."
+// "Media, Messaging, ACPI, or otherwise — I check node.Type and hand you to the right parser, no imposters allowed."
 func parseDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, error) {
 	switch node.Type {
 	case DevicePathMedia:
@@ -158,8 +158,8 @@ func parseDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, error) {
 	// case DevicePathHardware:
 	// 	return parseHardwareDevicePathNode(node)
 
-	// case DevicePathACPI:
-	// 	return parseACPIDevicePathNode(node)
+	case DevicePathACPI:
+		return parseAcpiDevicePathNode(node)
 
 	case DevicePathMessaging:
 		return parseMessagingDevicePathNode(node)

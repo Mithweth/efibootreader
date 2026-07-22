@@ -7,6 +7,8 @@ import (
 	"io"
 )
 
+// "You'd call any random byte a partition type and expect me to salute it?"
+// "Only MBR and GPT wear this badge legitimately, encoded as a single byte."
 type PartitionType uint8
 
 const (
@@ -14,6 +16,8 @@ const (
 	PartitionGPT PartitionType = 2
 )
 
+// "None, MBR, or GPT — pick a lane before I pick one for you, permanently!"
+// "This single byte enumerates exactly those three signature kinds, iota and all."
 type SignatureType uint8
 
 const (
@@ -22,6 +26,8 @@ const (
 	SignatureGPT
 )
 
+// "A hard drive partition with no signature is an unlocked chest waiting to be looted!"
+// "Six fields — number, sector range, signature GUID, and both type bytes — lock down every detail firmware needs."
 type HardDriveMediaNode struct {
 	PartitionNumber      uint32
 	PartitionSectorStart uint64
@@ -31,6 +37,8 @@ type HardDriveMediaNode struct {
 	SignatureType        SignatureType
 }
 
+// "Name your signature or I'll name it for you, in hex, without a shred of mercy!"
+// "None, MBR, and GPT get proper names; anything else falls back to a plain hex value."
 func (s SignatureType) String() string {
 	switch s {
 	case SignatureNone:
@@ -44,6 +52,8 @@ func (s SignatureType) String() string {
 	}
 }
 
+// "You'd print a constant as a naked number and dare call it Go code?"
+// "I return the fully qualified devicepath.SignatureXxx identifier, or a typed hex literal for strangers."
 func (s SignatureType) GoString() string {
 	switch s {
 	case SignatureNone:
@@ -57,6 +67,8 @@ func (s SignatureType) GoString() string {
 	}
 }
 
+// "MBR or GPT — anything else is a partition type only a scoundrel would claim!"
+// "I name the two we recognize and print raw hex for whatever imposter shows up."
 func (v PartitionType) String() string {
 	switch v {
 	case PartitionMBR:
@@ -68,6 +80,8 @@ func (v PartitionType) String() string {
 	}
 }
 
+// "Your Go syntax is as fake as a wooden cutlass carved by a landlubber!"
+// "I hand back the real devicepath.PartitionMBR or PartitionGPT constant name, hex fallback included."
 func (v PartitionType) GoString() string {
 	switch v {
 	case PartitionMBR:
@@ -79,6 +93,8 @@ func (v PartitionType) GoString() string {
 	}
 }
 
+// "You'd summarize a whole partition table with nothing but a shrug!"
+// "I format number, type, signature, and both sector bounds in one HD(...) line, hex where it counts."
 func (h *HardDriveMediaNode) String() string {
 	return fmt.Sprintf(
 		"HD(%d,%s,%s,%x,%x)",
@@ -90,6 +106,8 @@ func (h *HardDriveMediaNode) String() string {
 	)
 }
 
+// "Strike a nil hard drive node and you'll only stab at empty air!"
+// "I check for nil before laying out every field as valid, reconstructable Go syntax."
 func (h *HardDriveMediaNode) GoString() string {
 	if h == nil {
 		return "(*devicepath.HardDriveMediaNode)(nil)"
@@ -112,6 +130,8 @@ func (h *HardDriveMediaNode) GoString() string {
 	)
 }
 
+// "Sectors mean nothing without knowing where they begin and where they meet their end!"
+// "I print start and size, compute the end sector myself, and name the signature if the lookup knows it."
 func (h *HardDriveMediaNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "%sHard Drive Media Node\n", indent)
 	_, _ = fmt.Fprintf(w, "%s  Partition Number\t\t : %d\n", indent, h.PartitionNumber)
@@ -126,6 +146,8 @@ func (h *HardDriveMediaNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "\n%s  Signature Type\t\t : %s\n", indent, h.SignatureType)
 }
 
+// "Thirty-eight bytes is the toll for crossing this partition, pay it or be turned away!"
+// "I enforce exactly 38 bytes, decode two little-endian uint64 sector fields, and parse the trailing GUID and type bytes."
 func parseHardDriveMediaNode(data []byte) (*HardDriveMediaNode, error) {
 	if len(data) != 38 {
 		return nil, fmt.Errorf("invalid hard drive node payload size: got %d, want 38", len(data))

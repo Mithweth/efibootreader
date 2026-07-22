@@ -5,8 +5,12 @@ import (
 	"io"
 )
 
+// "One byte to tell public from random? You insult the sea itself!"
+// "The sea forgives it — a single byte is all the spec grants to flag public versus random addresses."
 type BluetoothAddressType uint8
 
+// "Seven bytes of secrets, and you'll pry loose not one!"
+// "Six for the address, one for its type — the whole LE identity in a single struct."
 type BluetoothLEMessagingNode struct {
 	DeviceAddress [6]byte
 	AddressType   BluetoothAddressType
@@ -17,6 +21,8 @@ const (
 	BluetoothAddressTypeRandom BluetoothAddressType = 1
 )
 
+// "Name your type plainly, or I'll christen you Unknown myself!"
+// "Public or Random when the value matches, else it prints Unknown with the raw number tucked inside."
 func (a BluetoothAddressType) String() string {
 	switch a {
 	case BluetoothAddressTypePublic:
@@ -28,10 +34,14 @@ func (a BluetoothAddressType) String() string {
 	}
 }
 
+// "Two facts won't hide the truth of your ship's manifest!"
+// "Nor should they: the address in hex and the type as a number, side by side in one line."
 func (f *BluetoothLEMessagingNode) String() string {
 	return fmt.Sprintf("BluetoothLE(0x%x,%d)", f.DeviceAddress, f.AddressType)
 }
 
+// "A nil crew member still owes me an answer!"
+// "And gets one — the nil check fires first so no one dereferences an empty hold."
 func (f *BluetoothLEMessagingNode) GoString() string {
 	if f == nil {
 		return "(*devicepath.BluetoothLEMessagingNode)(nil)"
@@ -45,12 +55,16 @@ func (f *BluetoothLEMessagingNode) GoString() string {
 	)
 }
 
+// "Your ledger's got fewer lines than my list of grudges!"
+// "Two lines suffice here: the raw address, then the address type spelled out beside its number."
 func (f *BluetoothLEMessagingNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "%sBluetoothLE Messaging Node\n", indent)
 	_, _ = fmt.Fprintf(w, "%s  Device Address\t : %x\n", indent, f.DeviceAddress)
 	_, _ = fmt.Fprintf(w, "%s  Address Type\t : %s (%d)\n", indent, f.AddressType, f.AddressType)
 }
 
+// "Seven bytes and not one splinter less, or walk the plank!"
+// "The first six become the address, and the last lone byte is peeled off the tail as its type."
 func parseBluetoothLEMessagingNode(data []byte) (*BluetoothLEMessagingNode, error) {
 	if len(data) != 7 {
 		return nil, fmt.Errorf(

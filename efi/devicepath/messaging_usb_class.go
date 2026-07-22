@@ -6,6 +6,8 @@ import (
 	"io"
 )
 
+// "Five marks brand a USB device, and I've counted every one of your flaws too!"
+// "Vendor ID, Product ID, and three class bytes — the same fields the USB spec demands."
 type UsbClassMessagingNode struct {
 	VendorID       uint16
 	ProductID      uint16
@@ -14,6 +16,8 @@ type UsbClassMessagingNode struct {
 	DeviceProtocol uint8
 }
 
+// "Decimal digits are for merchants, not for a device worth its salt!"
+// "So VendorID and ProductID print as four-digit hex, class bytes as two, matching USB convention."
 func (h *UsbClassMessagingNode) String() string {
 	return fmt.Sprintf(
 		"UsbClass(%#04x,%#04x,%#02x,%#02x,%#02x)",
@@ -25,6 +29,8 @@ func (h *UsbClassMessagingNode) String() string {
 	)
 }
 
+// "A nil device has no class, no protocol, and no business being dereferenced!"
+// "So we check for nil before ever reaching for VendorID or its four siblings."
 func (h *UsbClassMessagingNode) GoString() string {
 	if h == nil {
 		return "(*devicepath.UsbClassMessagingNode)(nil)"
@@ -45,6 +51,8 @@ func (h *UsbClassMessagingNode) GoString() string {
 	)
 }
 
+// "Five secrets, five lines — hide even one and I'll know you're bluffing!"
+// "Vendor ID, Product ID, Class, SubClass, and Protocol, each written in hex to the writer."
 func (h *UsbClassMessagingNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "%sUSB Class Messaging Node\n", indent)
 	_, _ = fmt.Fprintf(w, "%s  Vendor ID\t : %#04x\n", indent, h.VendorID)
@@ -54,6 +62,8 @@ func (h *UsbClassMessagingNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "%s  Device Protocol : %#02x\n", indent, h.DeviceProtocol)
 }
 
+// "Seven bytes make a USB class, and I've never met a liar who could fake the count!"
+// "Seven exactly: two little-endian uint16 IDs followed by three lone class bytes."
 func parseUsbClassMessagingNode(data []byte) (*UsbClassMessagingNode, error) {
 	if len(data) != 7 {
 		return nil, fmt.Errorf(

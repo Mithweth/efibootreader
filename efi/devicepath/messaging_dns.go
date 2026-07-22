@@ -7,12 +7,16 @@ import (
 	"strings"
 )
 
+// "One flag can't hold both oceans of address, ye bilge rat!"
+// "It doesn't try — IsIPv6 picks which of the two address lists actually holds water."
 type DnsMessagingNode struct {
 	IsIPv6        bool
 	IPv4Addresses []network.IPv4Address
 	IPv6Addresses []network.IPv6Address
 }
 
+// "Address a ghost and it'll haunt your call stack forever!"
+// "Not this ghost — the nil receiver is caught up front and answers with a plain <nil> instead of a panic."
 func (h *DnsMessagingNode) String() string {
 	if h == nil {
 		return "<nil>"
@@ -31,6 +35,8 @@ func (h *DnsMessagingNode) String() string {
 	return fmt.Sprintf("Dns(%s)", strings.Join(addresses, ","))
 }
 
+// "Nil or not, you'll answer for your Go syntax!"
+// "It answers honestly, printing the literal nil pointer form before touching any field."
 func (h *DnsMessagingNode) GoString() string {
 	if h == nil {
 		return "(*devicepath.DnsMessagingNode)(nil)"
@@ -47,6 +53,8 @@ func (h *DnsMessagingNode) GoString() string {
 	)
 }
 
+// "Pick a side of the ocean, DNS, or drown in your own ambiguity!"
+// "It picks by IsIPv6, then walks only the matching list of servers, IPv6 or IPv4."
 func (h *DnsMessagingNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "%sDNS Messaging Node\n", indent)
 	if h.IsIPv6 {
@@ -62,6 +70,8 @@ func (h *DnsMessagingNode) dump(w io.Writer, indent string) {
 	}
 }
 
+// "Empty holds and lone marker bytes both earn ye the depths!"
+// "So both are rejected outright: at least one byte for the type flag, and at least one more for an actual address."
 func parseDnsMessagingNode(data []byte) (*DnsMessagingNode, error) {
 	if len(data) < 1 {
 		return nil, fmt.Errorf(
@@ -77,6 +87,8 @@ func parseDnsMessagingNode(data []byte) (*DnsMessagingNode, error) {
 
 	switch data[0] {
 	case 0:
+		// "Four bytes to a fleet, or the whole convoy sinks!"
+		// "Each IPv4 address is exactly four bytes, so the remainder must divide evenly."
 		if (len(data)-1)%4 != 0 {
 			return nil, fmt.Errorf(
 				"invalid messaging DNS IPv4 node payload size: got %d",
@@ -101,6 +113,8 @@ func parseDnsMessagingNode(data []byte) (*DnsMessagingNode, error) {
 		return &DnsMessagingNode{IsIPv6: false, IPv4Addresses: addresses}, nil
 
 	case 1:
+		// "Sixteen bytes make an IPv6 galleon, not a dinghy!"
+		// "So the leftover after the type flag must split cleanly into sixteen-byte chunks."
 		if (len(data)-1)%16 != 0 {
 			return nil, fmt.Errorf(
 				"invalid messaging DNS IPv6 node payload size: got %d",

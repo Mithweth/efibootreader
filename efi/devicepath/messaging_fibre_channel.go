@@ -6,16 +6,22 @@ import (
 	"io"
 )
 
+// "Plain integers won't disguise your weakness from me!"
+// "No disguise needed here — unlike its Ex cousin, this variant decodes the name and LUN as plain uint64 numbers."
 type FibreChannelMessagingNode struct {
 	Reserved          uint32
 	WorldWideName     uint64
 	LogicalUnitNumber uint64
 }
 
+// "Decimal digits won't dazzle a swordsman like me!"
+// "They dazzle no one — just World Wide Name and LUN printed as plain decimal numbers, Reserved omitted."
 func (h *FibreChannelMessagingNode) String() string {
 	return fmt.Sprintf("Fibre(%d,%d)", h.WorldWideName, h.LogicalUnitNumber)
 }
 
+// "An empty hold still owes me an honest answer!"
+// "It gets one: nil is spotted and named before any field aboard is ever read."
 func (h *FibreChannelMessagingNode) GoString() string {
 	if h == nil {
 		return "(*devicepath.FibreChannelMessagingNode)(nil)"
@@ -32,6 +38,8 @@ func (h *FibreChannelMessagingNode) GoString() string {
 	)
 }
 
+// "A skimpy report deserves a skimpy grave!"
+// "This one's thorough enough: Reserved, World Wide Name, and Logical Unit Number, each on its own line."
 func (h *FibreChannelMessagingNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "%sFibre Channel Messaging Node\n", indent)
 	_, _ = fmt.Fprintf(w, "%s  Reserved\t\t : %d\n", indent, h.Reserved)
@@ -39,6 +47,8 @@ func (h *FibreChannelMessagingNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "%s  Logical Unit Number\t : %d\n", indent, h.LogicalUnitNumber)
 }
 
+// "Twenty bytes exactly, or feel the bite of my blade!"
+// "Then three little-endian fields fall out in order: four bytes Reserved, eight bytes name, eight bytes LUN."
 func parseFibreChannelMessagingNode(data []byte) (*FibreChannelMessagingNode, error) {
 	if len(data) != 20 {
 		return nil, fmt.Errorf(

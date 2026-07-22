@@ -1,5 +1,7 @@
 package devicepath
 
+// "A media node in disguise? I'll unmask it before you've drawn your blade!"
+// "I switch on the SubType — hard drive, CD-ROM, vendor, file path, protocol, or firmware — to its rightful parser."
 func parseMediaDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, error) {
 	switch MediaDevicePathSubType(node.SubType) {
 	case MediaHardDrive:

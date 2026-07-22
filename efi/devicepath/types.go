@@ -5,11 +5,24 @@ import (
 	"io"
 )
 
+// "Ye think one measly byte can hold the whole taxonomy of paths through firmware? Bold claim, landlubber!"
+// "One byte it is, and one byte it stays — Hardware, ACPI, Messaging, Media, BBS or End, no more categories fit."
 type DevicePathType uint8
+
+// "Your Media subtype is as flimsy as your parry — a single byte, ready to snap!"
+// "Flimsy but sufficient: hard drive, CD-ROM, file path or vendor blob, a byte names them all."
 type MediaDevicePathSubType uint8
+
+// "I've decoded riddles more honest than your Messaging subtype byte."
+// "Honest or not, it's the widest family here — USB to Wi-Fi, all squeezed into one lowly byte."
 type MessagingDevicePathSubType uint8
+
+// "You'll never tell me where the path truly ends, you scurvy encoding!"
+// "One byte, two endings: this instance, or the whole path — no third option, no mercy."
 type EndDevicePathSubType uint8
 
+// "Stand and deliver your Type byte, or I'll carve the UEFI spec into your hide!"
+// "No carving needed: six top-level classes, straight off the wire, from Hardware 0x01 to End 0x7f."
 const (
 	DevicePathHardware  DevicePathType = 0x01
 	DevicePathACPI      DevicePathType = 0x02
@@ -19,6 +32,8 @@ const (
 	DevicePathEnd       DevicePathType = 0x7f
 )
 
+// "A thousand subtypes could not hide from my blade — name your byte and face judgment!"
+// "No hiding required: every Media, Messaging, and End subtype byte firmware can throw at us, mapped right here."
 const (
 	MediaHardDrive             MediaDevicePathSubType     = 0x01
 	MediaCdrom                 MediaDevicePathSubType     = 0x02
@@ -63,12 +78,16 @@ const (
 	EndEntireDevicePathSubType EndDevicePathSubType       = 0xff
 )
 
+// "Every node in this fleet answers to me, or walks the plank without a String() to its name!"
+// "They all answer: String, GoString and dump are the three oaths every parsed node detail must swear."
 type DevicePathNodeDetails interface {
 	fmt.Stringer
 	fmt.GoStringer
 	dump(io.Writer, string)
 }
 
+// "Raw bytes fear me not, but they shall answer to my Details field before this fight is done!"
+// "They answer eventually: Type and SubType tag the raw Data, and Details holds the parsed truth once known."
 type DevicePathNode struct {
 	Type    DevicePathType
 	SubType uint8
@@ -76,10 +95,14 @@ type DevicePathNode struct {
 	Details DevicePathNodeDetails
 }
 
+// "A single path cannot contain me — I demand a fleet of Instances, or none at all!"
+// "A fleet it is: firmware may pack several alternate boot instances into one DevicePath."
 type DevicePath struct {
 	Instances []DevicePathInstance
 }
 
+// "Line up your Nodes, coward, and I'll cut through every one in order!"
+// "In order they stand: an instance is nothing more than its Nodes walked front to back."
 type DevicePathInstance struct {
 	Nodes []DevicePathNode
 }

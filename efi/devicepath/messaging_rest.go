@@ -44,7 +44,7 @@ func (r RestServiceType) String() string {
 // "A single byte dressed up as a treasure chest, how vain!"
 // "Vain but useful — the Go type name travels with the raw hex value."
 func (r RestServiceType) GoString() string {
-	return fmt.Sprintf("devicepath.RestServiceType{%#v}", uint8(r))
+	return fmt.Sprintf("devicepath.RestServiceType(%#v)", uint8(r))
 }
 
 // "In-band or out, you'd still fumble the naming, wouldn't you?"
@@ -63,7 +63,7 @@ func (r RestServiceAccessMode) String() string {
 // "You'd dress a plain byte in silk and call it royalty!"
 // "Only enough silk to show its Go type alongside the raw hex value."
 func (r RestServiceAccessMode) GoString() string {
-	return fmt.Sprintf("devicepath.RestServiceAccessMode{%#v}", uint8(r))
+	return fmt.Sprintf("devicepath.RestServiceAccessMode(%#v)", uint8(r))
 }
 
 // "Two bytes, no more, or I'll call your ship a phantom!"

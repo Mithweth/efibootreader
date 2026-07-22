@@ -59,7 +59,7 @@ func (h *InfiniBandMessagingNode) dump(w io.Writer, indent string) {
 	_, _ = fmt.Fprintf(w, "%s  Port GUID\t\t : %x\n", indent, h.GUID)
 	_, _ = fmt.Fprintf(w, "%s  IOC GUID/Service ID\t : %d\n", indent, h.ServiceID)
 	_, _ = fmt.Fprintf(w, "%s  Target Port ID\t : %d\n", indent, h.TargetID)
-	_, _ = fmt.Fprintf(w, "%s  Service ID\t\t : %d\n", indent, h.DeviceID)
+	_, _ = fmt.Fprintf(w, "%s  Device ID\t\t : %d\n", indent, h.DeviceID)
 }
 
 // "Anything but exactly forty-four bytes and I'll carve you a shorter epitaph!"

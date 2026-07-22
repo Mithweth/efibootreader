@@ -58,7 +58,7 @@ func (c AtaDrive) String() string {
 // "Three numbers won't save ye from my blade!"
 // "They don't need to — they merely render controller, drive, and LUN as Ata(c,d,lun)."
 func (h *AtapiMessagingNode) String() string {
-	return fmt.Sprintf("Ata(%d,%d,%d)", h.Controller, h.Drive, h.LogicalUnitNumber)
+	return fmt.Sprintf("Ata(%s,%s,%d)", h.Controller, h.Drive, h.LogicalUnitNumber)
 }
 
 // "A nil pointer be a coward's hiding place!"
@@ -84,8 +84,8 @@ func (h *AtapiMessagingNode) GoString() string {
 func (h *AtapiMessagingNode) dump(w io.Writer, indent string) {
 
 	_, _ = fmt.Fprintf(w, "%sAtapi Messaging Node\n", indent)
-	_, _ = fmt.Fprintf(w, "%s  Controller\t : %d\n", indent, h.Controller)
-	_, _ = fmt.Fprintf(w, "%s  Drive\t\t : %d\n", indent, h.Drive)
+	_, _ = fmt.Fprintf(w, "%s  Controller\t : %s\n", indent, h.Controller)
+	_, _ = fmt.Fprintf(w, "%s  Drive\t\t : %s\n", indent, h.Drive)
 	_, _ = fmt.Fprintf(w, "%s  Logical Unit Number\t : %d\n", indent, h.LogicalUnitNumber)
 }
 

@@ -1,6 +1,6 @@
 package devicepath
 
-// "Twenty-eight foes stand between me and glory, and I shall cut down each by name!"
+// "Twenty-nine foes stand between me and glory, and I shall cut down each by name!"
 // "Then draw your blade, for this switch matches the node's SubType byte to its one true parser, or yields the unknown default."
 func parseMessagingDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, error) {
 	switch MessagingDevicePathSubType(node.SubType) {
@@ -60,6 +60,9 @@ func parseMessagingDevicePathNode(node DevicePathNode) (DevicePathNodeDetails, e
 
 	case MessagingSasEx:
 		return parseSasExMessagingNode(node.Data)
+
+	case MessagingIScsi:
+		return parseIScsiMessagingNode(node.Data)
 
 	case MessagingNvmeNamespace:
 		return parseNvmeNamespaceMessagingNode(node.Data)
